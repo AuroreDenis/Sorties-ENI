@@ -57,6 +57,24 @@ class Sorties
      */
     private $url_photo;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Etats")
+     */
+    private $etat;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @var \App\Entity\Participants
+     * @ORM\ManyToOne (targetEntity="App\Entity\Participants")
+     */
+    private $organisateur;
+
+
+    /**
+     * @ORM\ManyToOne (targetEntity="App\Entity\Lieux")
+     */
+    private $lieux;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -157,4 +175,56 @@ class Sorties
 
         return $this;
     }
+
+    /**
+     * @return Etats
+     */
+    public function getEtat(): Etats
+    {
+        return $this->etat;
+    }
+
+    /**
+     * @param Etats $etat
+     */
+    public function setEtat(Etats $etat): void
+    {
+        $this->etat = $etat;
+    }
+
+    /**
+     * @return Participants
+     */
+    public function getOrganisateur(): Participants
+    {
+        return $this->organisateur;
+    }
+
+    /**
+     * @param Participants $organisateur
+     */
+    public function setOrganisateur(Participants $organisateur): void
+    {
+        $this->organisateur = $organisateur;
+    }
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getLieux()
+    {
+        return $this->lieux;
+    }
+
+    /**
+     * @param mixed $lieux
+     */
+    public function setLieux($lieux): void
+    {
+        $this->lieux = $lieux;
+    }
+
+
 }

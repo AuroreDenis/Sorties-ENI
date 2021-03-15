@@ -73,6 +73,9 @@ class Participants implements UserInterface
      */
     private $campus;
 
+
+
+
     public function getId(): ?int
     {
         return $this->id;

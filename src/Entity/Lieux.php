@@ -37,6 +37,12 @@ class Lieux
      */
     private $longitude;
 
+    /**
+     * @ORM\ManyToOne (targetEntity="App\Entity\Villes")
+     */
+    private $ville;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,4 +95,22 @@ class Lieux
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getVille()
+    {
+        return $this->ville;
+    }
+
+    /**
+     * @param mixed $ville
+     */
+    public function setVille($ville): void
+    {
+        $this->ville = $ville;
+    }
+
+
 }

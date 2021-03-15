@@ -23,6 +23,17 @@ class Inscriptions
     private $date_inscription;
 
 
+    /**
+     * @ORM\ManyToOne (targetEntity="App\Entity\Sorties")
+     */
+    private $sortie;
+
+    /**
+     * @ORM\ManyToOne (targetEntity="App\Entity\Participants")
+     */
+    private $participant;
+
+
 
     public function getId(): ?int
     {
@@ -40,4 +51,38 @@ class Inscriptions
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSortie()
+    {
+        return $this->sortie;
+    }
+
+    /**
+     * @param mixed $sortie
+     */
+    public function setSortie($sortie): void
+    {
+        $this->sortie = $sortie;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParticipant()
+    {
+        return $this->participant;
+    }
+
+    /**
+     * @param mixed $participant
+     */
+    public function setParticipant($participant): void
+    {
+        $this->participant = $participant;
+    }
+
+
 }

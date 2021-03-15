@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EtatsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,6 +22,7 @@ class Etats
      * @ORM\Column(type="string", length=30)
      */
     private $libelle;
+
 
     public function getId(): ?int
     {
