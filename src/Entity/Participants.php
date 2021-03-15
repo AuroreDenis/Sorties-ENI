@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use App\Repository\ParticipantsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @UniqueEntity(fields={"username"})
  * @ORM\Entity(repositoryClass=ParticipantsRepository::class)
  */
 class Participants implements UserInterface
@@ -66,8 +68,10 @@ class Participants implements UserInterface
 
     /**
      * @ORM\Column(type="integer")
+     * @var \App\Entity\Campus
+     * @ORM\ManyToOne(targetEntity="App\Entity\Campus", inversedBy="participants")
      */
-    private $campus=1;
+    private $campus;
 
     public function getId(): ?int
     {
