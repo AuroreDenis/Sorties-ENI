@@ -14,6 +14,8 @@
         {% endblock %}
     </head>
     <body>
+    {% block nav %}{% endblock %}
+
     {% block header %}
         {% for label, messages in app.flashes %}
             {% for message in messages %}
@@ -22,29 +24,9 @@
                 </div>
             {% endfor %}
         {% endfor %}
-        <nav>
-            <ul>
-
-                <li ><a href="{{ path('home') }}">ACCUEIL</a></li>
-
-
-                 {% if is_granted ('IS_AUTHENTICATED_REMEMBERED') %}
-
-
-                     <li ><a href="{{ path('logout') }}">SE DECONNECTER</a></li>
-                {% else %}
-                    <li ><a href="{{ path('creer_un_admin') }}">CREER UN ADMIN</a></li>
-                    {# <li><a href="{{ path('gerer_utilisateur') }}">GERER UTILISATEUR</a></li>
-                    <li><a href="{{ path('gerer_les_campus') }}">GERER LES CAMPUS</a></li>
-                    <li><a href="{{ path('gerer_les_villes') }}">GERER LES VILLES</a></li>#}
-
-
-
-                {% endif %}
-            </ul>
-        </nav>
 
     {% endblock %}
+
     {% block main %}{% endblock %}
     {% block footer %}{% endblock %}
 

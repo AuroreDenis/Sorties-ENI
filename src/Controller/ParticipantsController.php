@@ -15,13 +15,14 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class ParticipantsController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_login")
+     * @Route("/", name="app_login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+        if ($this->getUser()) {
+            return $this->render('home/index.html.twig', []);
+            // return $this->redirectToRoute('home');
+         }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -32,7 +33,7 @@ class ParticipantsController extends AbstractController
     }
 
     /**
-     * @Route("/logout", name="app_logout")
+     * @Route("/logout", name="logout")
      */
     public function logout()
     {
