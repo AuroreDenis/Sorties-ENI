@@ -25,19 +25,36 @@ class Campus
 
 
     /**
-     * @ORM\OneToMany(targetEntity="\App\Entity\Participants", mappedBy="campus", cascade="remove")
+     * @var ArrayCollection $participants
+     *
+     * @ORM\OneToMany(targetEntity="\App\Entity\Participants", mappedBy="campus", cascade={"persist", "remove", "merge"})
      */
     private $participants;
 
+
+
     /**
-     * Campus constructor.
-     * @param $participants
+     * @param Participants $participants
      */
-    public function __construct()
-    {
-        $this->participants = new ArrayCollection();
+    public function addParticipants(Participants $participants) {
+        $participants->setCampus($this);
+
+        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas
+        if (!$this->$participants->contains($participants)) {
+            $this->$participants->add($participants);
+        }
     }
 
+    /**
+     * @return ArrayCollection $participants
+     */
+    public function getParticipants() {
+        return $this->participants;
+    }
+
+    public function __construct() {
+        $this->participants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {

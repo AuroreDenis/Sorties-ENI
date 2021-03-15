@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\SortiesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -63,12 +64,40 @@ class Sorties
     private $etat;
 
     /**
-     * @ORM\Column(type="integer")
-     * @var \App\Entity\Participants
      * @ORM\ManyToOne (targetEntity="App\Entity\Participants")
      */
     private $organisateur;
 
+
+    /**
+     * @var ArrayCollection $inscriptions
+     *
+     * @ORM\OneToMany(targetEntity="\App\Entity\Inscriptions", mappedBy="sortie", cascade={"persist", "remove", "merge"})
+     */
+    private $inscriptions;
+
+    /**
+     * @param Inscriptions $inscriptions
+     */
+    public function addInscriptions(Inscriptions $inscriptions) {
+        $inscriptions->setSortie($this);
+
+        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas
+        if (!$this->$inscriptions->contains($inscriptions)) {
+            $this->$inscriptions->add($inscriptions);
+        }
+    }
+
+    /**
+     * @return ArrayCollection $participants
+     */
+    public function getInscriptions() {
+        return $this->inscriptions;
+    }
+
+    public function __construct() {
+        $this->inscriptions = new ArrayCollection();
+    }
 
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\Lieux")

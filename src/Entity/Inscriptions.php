@@ -24,7 +24,8 @@ class Inscriptions
 
 
     /**
-     * @ORM\ManyToOne (targetEntity="App\Entity\Sorties")
+     * @var Sorties $sortie
+     * @ORM\ManyToOne (targetEntity="App\Entity\Sorties", inversedBy="inscriptions", cascade={"persist", "merge", "remove"})
      */
     private $sortie;
 
@@ -32,7 +33,6 @@ class Inscriptions
      * @ORM\ManyToOne (targetEntity="App\Entity\Participants")
      */
     private $participant;
-
 
 
     public function getId(): ?int

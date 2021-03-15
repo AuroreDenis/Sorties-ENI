@@ -67,13 +67,10 @@ class Participants implements UserInterface
     private $actif=1;
 
     /**
-     * @ORM\Column(type="integer")
-     * @var \App\Entity\Campus
-     * @ORM\ManyToOne(targetEntity="App\Entity\Campus", inversedBy="participants")
+     * @var Campus $campus
+     * @ORM\ManyToOne(targetEntity="App\Entity\Campus", inversedBy="participants", cascade={"persist", "merge", "remove"})
      */
     private $campus;
-
-
 
 
     public function getId(): ?int
@@ -212,13 +209,8 @@ class Participants implements UserInterface
         return $this;
     }
 
-    public function getCampus(): ?int
-    {
-        $campus=1;
-        return 1;
-    }
 
-    public function setCampus(int $campus): self
+    public function setCampus( $campus): self
     {
         $this->campus = $campus;
 
