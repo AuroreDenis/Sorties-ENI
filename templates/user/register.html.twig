@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WELCOME TO MY BLOG{% endblock %}
+
+{% block header %}
+    <h1>creer un admin</h1>
+
+
+{% endblock %}
+
+{% block main %}
+    <h2>creer mon compte</h2>
+    {{ form_start(registerForm) }}
+    {{ form_widget(registerForm) }}
+    <button type="submit">Send!</button>
+    {{ form_end(registerForm) }}
+{% endblock %}
+
