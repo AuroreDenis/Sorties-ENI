@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
 use App\Entity\Participants;
 use App\Form\ParticipantsType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,9 +47,11 @@ class ParticipantsController extends AbstractController
 
     public function add(EntityManagerInterface $em, Request $request, UserPasswordEncoderInterface $encoder)
     {
-        $participant=new Participants();
-        $registerForm=$this->createForm(ParticipantsType::class, $participant);
+        $participant = new Participants();
+        $registerForm = $this->createForm(ParticipantsType::class, $participant);
         $registerForm->handleRequest($request);
+        $campus = new Campus();
+        $participant->setCampus($campus);
         if ($registerForm->isSubmitted() and $registerForm->isValid()) {
 
             //hasher le mot de passe avec class passwordEncoderInterface
@@ -57,6 +60,7 @@ class ParticipantsController extends AbstractController
 
             //sauvegarder mon utilsateur
             //try{
+            $em->persist($campus);
                 $em->persist($participant);
                 $em->flush();
                 $this->addFlash('success', 'le compte a été créé avec succès (veuillez-vous connecter maintenant)');

@@ -5,11 +5,25 @@
 
 {% block main %}
         <h2> Les sorties </h2>
+    <TABLE BORDER="1">
+        <TR>
+            <TH> Nom de la sortie </TH>
+            <TH> Date  </TH>
+            <TH> Clôture </TH>
+            <TH> Nombre d'inscrit </TH>
+            <TH> Actions </TH>
+        </TR>
 
-    <ul>
-        {%  for sortie in sorties %}
-           <li> {{ sortie.id }} - {{ sortie.nom }}  </li>
+    {%  for sortie in sorties %}
+        <TR>
+            <TD> {{ sortie.nom }} </TD>
+            <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
+            <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
+            <td> {{ sortie.nbInscriptionsMax }}</td>
+            <td> Afficher </td>
+
+        </TR>
         {% endfor %}
-    </ul>
+    </TABLE>
     {%  endblock %}
 

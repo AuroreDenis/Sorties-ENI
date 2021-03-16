@@ -21,7 +21,7 @@ class ParticipantsType extends AbstractType
             ->add('telephone')
             ->add('mail')
             //->add('actif')
-            ->add('campus')
+            //->add('campus')
             //->add('roles')
             ->add('password', RepeatedType::class,[
                 'type' => PasswordType::class,

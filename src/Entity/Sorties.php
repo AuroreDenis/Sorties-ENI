@@ -58,15 +58,16 @@ class Sorties
      */
     private $url_photo;
 
-  //  /**
-    //     * @ORM\ManyToOne(targetEntity="App\Entity\Etats")
-//       */
-//      private $etat;
 
-//      /**
-//       * @ORM\ManyToOne (targetEntity="App\Entity\Participants")
-//       */
-//      private $organisateur;
+   /**
+    * @ORM\ManyToOne(targetEntity="App\Entity\Etats", cascade="persist")
+    */
+    private $etat;
+
+   ///  *
+//* @ORM\ManyToOne (targetEntity="App\Entity\Participants", cascade="persist")
+  //     */
+    //  private $organisateur;
 
 
 //      /**
@@ -204,44 +205,37 @@ class Sorties
 
         return $this;
     }
-/*
+
     /**
      * @return Etats
-     *//*
+     */
     public function getEtat(): Etats
     {
         $etat = new Etats();
-        $etat->setLibelle('Fermé');
         return $etat;
     }
-*/
-/*
     /**
      * @param Etats $etat
      */
-  /*  public function setEtat(Etats $etat): void
+  public function setEtat(Etats $etat): void
     {
         $this->etat = $etat;
     }
-*/
-  /*  /**
-     * @return Participants
-     */
-   /* public function getOrganisateur(): Participants
+ /*
+    public function getOrganisateur(): Participants
     {
-        return $this->organisateur;
+        $orga = new Participants();
+        return $orga;
     }
 
-    /**
-     * @param Participants $organisateur
-     */
-    /*public function setOrganisateur(Participants $organisateur): void
+
+    public function setOrganisateur(Participants $organisateur): void
     {
         $this->organisateur = $organisateur;
     }
+*/
 
-
-
+/*
     /**
      * @return mixed
      */

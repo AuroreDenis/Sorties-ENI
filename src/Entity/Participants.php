@@ -214,7 +214,6 @@ class Participants implements UserInterface
     public function getCampus(): Campus
     {
         $campus = new Campus();
-        $campus->setNomCampus('Rennes');
         return $campus;
     }
 

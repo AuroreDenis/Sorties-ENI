@@ -22,12 +22,12 @@ class Inscriptions
      */
     private $date_inscription;
 
-
+/*
     /**
      * @var Sorties $sortie
      * @ORM\ManyToOne (targetEntity="App\Entity\Sorties", inversedBy="inscriptions", cascade={"persist", "merge", "remove"})
      */
-    private $sortie;
+  /*  private $sortie;*/
 
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\Participants")
