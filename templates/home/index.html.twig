@@ -17,6 +17,7 @@
 
 
             {% if is_granted ('IS_AUTHENTICATED_REMEMBERED') %}
+                <h2>bonjour {{ user.prenom }}</h2>
                 <li ><a href="#">CREER UN ADMIN</a></li>
                 <li><a href="#">GERER UTILISATEUR</a></li>
                 <li><a href="#">GERER LES CAMPUS</a></li>
