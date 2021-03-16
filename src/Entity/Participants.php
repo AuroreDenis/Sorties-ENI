@@ -29,7 +29,7 @@ class Participants implements UserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = ['ROLE_ADMIN'];
+    private $roles = ['ROLE_USER'];
 
     /**
      * @Assert\Regex(
@@ -208,7 +208,15 @@ class Participants implements UserInterface
 
         return $this;
     }
-
+    /**
+     * @return Campus
+     */
+    public function getCampus(): Campus
+    {
+        $campus = new Campus();
+        $campus->setNomCampus('Rennes');
+        return $campus;
+    }
 
     public function setCampus( $campus): self
     {
