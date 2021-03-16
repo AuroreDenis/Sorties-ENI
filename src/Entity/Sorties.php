@@ -58,51 +58,51 @@ class Sorties
      */
     private $url_photo;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Etats")
-     */
-    private $etat;
+  //  /**
+    //     * @ORM\ManyToOne(targetEntity="App\Entity\Etats")
+//       */
+//      private $etat;
 
-    /**
-     * @ORM\ManyToOne (targetEntity="App\Entity\Participants")
-     */
-    private $organisateur;
+//      /**
+//       * @ORM\ManyToOne (targetEntity="App\Entity\Participants")
+//       */
+//      private $organisateur;
 
 
-    /**
-     * @var ArrayCollection $inscriptions
-     *
-     * @ORM\OneToMany(targetEntity="\App\Entity\Inscriptions", mappedBy="sortie", cascade={"persist", "remove", "merge"})
-     */
-    private $inscriptions;
+//      /**
+//     * @var ArrayCollection $inscriptions
+//     *
+//     * @ORM\OneToMany(targetEntity="\App\Entity\Inscriptions", mappedBy="sortie", cascade={"persist", "remove", "merge"})
+//     */
+//    private $inscriptions;
 
-    /**
-     * @param Inscriptions $inscriptions
-     */
-    public function addInscriptions(Inscriptions $inscriptions) {
-        $inscriptions->setSortie($this);
+    //   /**
+    //* @param Inscriptions $inscriptions
+    //*/
+    //public function addInscriptions(Inscriptions $inscriptions) {
+    //   $inscriptions->setSortie($this);
 
         // Si l'objet fait déjà partie de la collection on ne l'ajoute pas
-        if (!$this->$inscriptions->contains($inscriptions)) {
-            $this->$inscriptions->add($inscriptions);
-        }
-    }
+    //    if (!$this->$inscriptions->contains($inscriptions)) {
+    //       $this->$inscriptions->add($inscriptions);
+    //   }
+    //}
 
-    /**
-     * @return ArrayCollection $participants
-     */
-    public function getInscriptions() {
-        return $this->inscriptions;
-    }
+    ///**
+    //* @return ArrayCollection $participants
+    //*/
+    //public function getInscriptions() {
+    //   return $this->inscriptions;
+    //}
 
-    public function __construct() {
-        $this->inscriptions = new ArrayCollection();
-    }
+    //public function __construct() {
+    //    $this->inscriptions = new ArrayCollection();
+    //}
 
-    /**
-     * @ORM\ManyToOne (targetEntity="App\Entity\Lieux")
-     */
-    private $lieux;
+    ///**
+    //* @ORM\ManyToOne (targetEntity="App\Entity\Lieux")
+    //*/
+    //private $lieux;
 
     public function getId(): ?int
     {
@@ -204,27 +204,30 @@ class Sorties
 
         return $this;
     }
-
+/*
     /**
      * @return Etats
-     */
+     *//*
     public function getEtat(): Etats
     {
-        return $this->etat;
+        $etat = new Etats();
+        $etat->setLibelle('Fermé');
+        return $etat;
     }
-
+*/
+/*
     /**
      * @param Etats $etat
      */
-    public function setEtat(Etats $etat): void
+  /*  public function setEtat(Etats $etat): void
     {
         $this->etat = $etat;
     }
-
-    /**
+*/
+  /*  /**
      * @return Participants
      */
-    public function getOrganisateur(): Participants
+   /* public function getOrganisateur(): Participants
     {
         return $this->organisateur;
     }
@@ -232,7 +235,7 @@ class Sorties
     /**
      * @param Participants $organisateur
      */
-    public function setOrganisateur(Participants $organisateur): void
+    /*public function setOrganisateur(Participants $organisateur): void
     {
         $this->organisateur = $organisateur;
     }
@@ -242,7 +245,7 @@ class Sorties
     /**
      * @return mixed
      */
-    public function getLieux()
+    /*public function getLieux()
     {
         return $this->lieux;
     }
@@ -250,10 +253,10 @@ class Sorties
     /**
      * @param mixed $lieux
      */
-    public function setLieux($lieux): void
+   /* public function setLieux($lieux): void
     {
         $this->lieux = $lieux;
     }
 
-
+*/
 }

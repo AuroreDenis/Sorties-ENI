@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title%} {{ parent() }} | Liste des sorties {%  endblock %}
+
+{% block main %}
+        <h2> Détail de la sortie </h2>
+
+    <ul>
+           <li> {{ sortie.id }} - {{ sortie.nom }}  </li>
+        <li> {{ sortie.descriptionInfos }}</li>
+    </ul>
+    {%  endblock %}
+
