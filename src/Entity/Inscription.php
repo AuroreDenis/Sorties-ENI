@@ -22,12 +22,13 @@ class Inscription
      */
     private $date_inscription;
 
-/*
+//, inversedBy="inscriptions", cascade={"persist", "merge", "remove"}) -> à ajouter pour relation biderectionnelle
+
     /**
-     * @var Sorties $sortie
-     * @ORM\ManyToOne (targetEntity="App\Entity\Sorties", inversedBy="inscriptions", cascade={"persist", "merge", "remove"})
+     *
+     * @ORM\ManyToOne (targetEntity="App\Entity\Sortie")
      */
-  /*  private $sortie;*/
+    private $sortie;
 
     /**
      * @ORM\ManyToOne (targetEntity="App\Entity\Participants")

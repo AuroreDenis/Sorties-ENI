@@ -36,7 +36,20 @@ class SortiesController extends AbstractController
 
         $filtreForm = $this->createForm(FiltreType::class, $filtre);
 
+        //hydrate le formulaire
         $filtreForm->handleRequest($request);
+
+        if ($filtreForm->isSubmitted() && $filtreForm->isValid()) { // si le formulaire est envoyé
+
+            $campusF=$filtre->getCampus();
+
+
+            return $this->render('sortie/list.html.twig', [
+                "sorties" => $sorties,
+                "campus" => $campusF,]);
+
+
+        }
 
         return $this->render('sortie/list.html.twig', [
             "sorties" => $sorties,
