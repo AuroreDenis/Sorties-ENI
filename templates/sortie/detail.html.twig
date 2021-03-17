@@ -4,11 +4,48 @@
 {% block title%} {{ parent() }} | Liste des sorties {%  endblock %}
 
 {% block main %}
-        <h2> Détail de la sortie </h2>
+        <h2> Détails de la sortie </h2>
 
-    <ul>
-           <li> {{ sortie.id }} - {{ sortie.nom }}  </li>
-        <li> {{ sortie.descriptionInfos }}</li>
-    </ul>
+<div>
+    <h4>Nom de la sortie: {{ sortie.nom }}</h4><h4>Campus: </h4>
+
+</div>
+    <div>
+        <h4>Date et heure de la sortie: {{ sortie.dateDebut|date('d-m-Y H:i:s') }}</h4>
+        <h4>Lieu: </h4>
+
+    </div>
+    <div>
+        <h4>Date limite d'inscription: {{ sortie.dateCloture|date('d-m-Y H:i:s') }}</h4>
+        <h4>rue: </h4>
+    </div>
+    <div>
+        <h4>Nombre de places: {{ sortie.nbInscriptionsMax }}</h4>
+        <h4>Code postal:  </h4>
+    </div>
+    <div>
+        <h4>Durée: {{ sortie.duree }}/minutes</h4>
+        <h4>Lattitude :  -----</h4>
+    </div>
+    <div>
+        <h4>Description infos: {{ sortie.descriptionInfos }}</h4>
+        <h4>Longitude:  -----</h4>
+    </div>
+
+    <tr>
+        <td>PSEUDO</td>
+        <td>NOM</td>
+
+    </tr>
+
     {%  endblock %}
 
+    {% block header %}
+        {% if is_granted('ROLE_USER') %}
+            <h3>menu user</h3>
+            <li><a href="{{ path('gerer_mon_profil_utilisateur') }}">mon profil utilisateur</a></li>
+            <li>accueil</li>
+            <li ><a href="{{ path('logout') }}">SE DECONNECTER</a></li>
+        {% endif %}
+
+    {% endblock %}
