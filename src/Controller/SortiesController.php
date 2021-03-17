@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
 use App\Entity\Etat;
+use App\Entity\Filtre;
 use App\Entity\Lieu;
 use App\Entity\Participants;
 use App\Entity\Sortie;
 
+use App\Form\FiltreType;
 use App\Form\SortiesType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,13 +24,24 @@ class SortiesController extends AbstractController
     /**
      * @Route("/sorties", name="sorties_list")
      */
-    public function list()
+    public function list(Request $request)
     {
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sorties = $sortieRepo->findAll();
 
+        $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
+        $campus = $campusRepo->findAll();
+
+        $filtre = new Filtre();
+
+        $filtreForm = $this->createForm(FiltreType::class, $filtre);
+
+        $filtreForm->handleRequest($request);
+
         return $this->render('sortie/list.html.twig', [
-            "sorties" => $sorties
+            "sorties" => $sorties,
+            "campus" => $campus,
+            "filtreForm" => $filtreForm->createView()
         ]);
     }
 

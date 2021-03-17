@@ -2,10 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\Etat;
+
 use App\Entity\Sortie;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,11 +21,8 @@ class SortiesType extends AbstractType
             ->add('date_cloture')
             ->add('nb_inscriptions_max')
             ->add('description_infos')
-         //   ->add('etat_sortie')
             ->add('url_photo')
-
         //   ->add('lieu')
-
 
         ->add('creer', SubmitType::class, [
             'label' => 'Création'
