@@ -2,12 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Etats;
-use App\Entity\Idea;
+use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Participants;
-use App\Entity\Sorties;
+use App\Entity\Sortie;
 
-use App\Form\IdeaFormType;
 use App\Form\SortiesType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +23,7 @@ class SortiesController extends AbstractController
      */
     public function list()
     {
-        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sorties = $sortieRepo->findAll();
 
         return $this->render('sortie/list.html.twig', [
@@ -38,43 +37,56 @@ class SortiesController extends AbstractController
      */
     public function add(EntityManagerInterface $em, Request $request)
     {
-        $sortie = new Sorties();
+        $sortie = new Sortie();
+
+
+        /******************* récupération de l'orga ********************/
         //l'organisateur est l'utilisateur connecté
-       // $orga = $this->getUser();
+        $orga = $this->getUser();
+       $sortie->setOrganisateur($orga);
 
-       //$sortie->setOrganisateur($orga);
 
 
-       // ************************* création de état *************
-/*
-        $etat = new Etats();
-        $etat->setLibelle('ouvert');
 
-        $sortie->setEtat($etat);
-*/
         $sortieForm = $this->createForm(SortiesType::class, $sortie);
 
         //hydrate le formulaire
         $sortieForm->handleRequest($request);
+
+        $flashMessage = 'problème ';
+
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             //sauvegarde en BDD ssi formulaire est renseigné
 
-        /*    $etatRepo = $this->getDoctrine()->getRepository(Etats::class);
-            $etatBDD = $etatRepo->findAll();
-            $etat = $sortie->getEtat();
-            $dejaEnBDD = array_search($etat, $etatBDD);
+            /************************* récupération de état *************/
+            $etatRepo = $this->getDoctrine()->getRepository(Etat::class);
 
-            if(!$dejaEnBDD) {
-                $em->persist($etat);
-                $em->flush();
-            }*/
+            if($sortieForm->getClickedButton() === $sortieForm->get('creer')) {//gestion selon le bouton utilisé
+            $etat = $etatRepo->findOneBy(['libelle' => 'En création']);
+            $flashMessage = 'nouvelle sortie créée';
+        }
+            elseif ($sortieForm->getClickedButton() === $sortieForm->get('publier')) {//gestion selon le bouton utilisé
+                $etat = $etatRepo->findOneBy(['libelle' => 'Ouvert']);
+                $flashMessage = 'nouvelle sortie publiée';
+            }
 
+            else{
+                $etat = $etatRepo->findOneBy(['libelle' => 'Fermé']);
+            }
+            $sortie->setEtat($etat);
+
+            /***************** récupération du lieu ****************
+         $lieu = new Lieu();
+         $lieu->setNomLieu('là-bas');
+         $sortie->setLieu($lieu);
+*/
             $em->persist($sortie);
             $em->flush();
 
-
 //renvoie dans la page de detail en affichant un message flash
-            $this->addFlash('success', 'la sortie a été enregistrée');
+            $this->addFlash('success', $flashMessage);
+
+
             return $this->redirectToRoute('sortie_detail', [
                 'id' => $sortie->getId()
             ]);
@@ -91,7 +103,7 @@ class SortiesController extends AbstractController
      */
     public function detail($id): Response
     {
-        $sortiesRepo = $this->getDoctrine()->getRepository(Sorties::class);
+        $sortiesRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortiesRepo->find($id);
         return $this->render('sortie/detail.html.twig', [
             "sortie" => $sortie
@@ -106,7 +118,7 @@ class SortiesController extends AbstractController
     public function modif($id, EntityManagerInterface $em, Request $request)
     {
         // récupérer la sortie à modifier
-        $sortieRepo = $this->getDoctrine()->getRepository(Sorties::class);
+        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortieRepo->find($id);
 
         // formulaire, update

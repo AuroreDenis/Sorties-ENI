@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=SortiesRepository::class)
  */
-class Sorties
+class Sortie
 {
     /**
      * @ORM\Id
@@ -60,14 +60,14 @@ class Sorties
 
 
    /**
-    * @ORM\ManyToOne(targetEntity="App\Entity\Etats", cascade="persist")
+    * @ORM\ManyToOne(targetEntity="Etat")
     */
     private $etat;
 
-   ///  *
-//* @ORM\ManyToOne (targetEntity="App\Entity\Participants", cascade="persist")
-  //     */
-    //  private $organisateur;
+   /**
+* @ORM\ManyToOne (targetEntity="App\Entity\Participants")
+    */
+     private $organisateur;
 
 
 //      /**
@@ -100,10 +100,12 @@ class Sorties
     //    $this->inscriptions = new ArrayCollection();
     //}
 
-    ///**
-    //* @ORM\ManyToOne (targetEntity="App\Entity\Lieux")
-    //*/
-    //private $lieux;
+
+/*
+    /**
+    * @ORM\ManyToOne (targetEntity="App\Entity\Lieu")
+    */
+  //  private $lieu;
 
     public function getId(): ?int
     {
@@ -207,21 +209,22 @@ class Sorties
     }
 
     /**
-     * @return Etats
+     * @return Etat
      */
-    public function getEtat(): Etats
+    public function getEtat(): Etat
     {
-        $etat = new Etats();
+        $etat = new Etat();
         return $etat;
     }
     /**
-     * @param Etats $etat
+     * @param Etat $etat
      */
-  public function setEtat(Etats $etat): void
+  public function setEtat(Etat $etat): void
     {
+
         $this->etat = $etat;
     }
- /*
+
     public function getOrganisateur(): Participants
     {
         $orga = new Participants();
@@ -233,24 +236,24 @@ class Sorties
     {
         $this->organisateur = $organisateur;
     }
-*/
+
 
 /*
     /**
      * @return mixed
-     */
-    /*public function getLieux()
+     *//*
+    public function getLieu()
     {
-        return $this->lieux;
+        return $this->lieu;
     }
 
     /**
-     * @param mixed $lieux
-     */
-   /* public function setLieux($lieux): void
+     * @param mixed $lieu
+     *//*
+    public function setLieu($lieu): void
     {
-        $this->lieux = $lieux;
+        $this->lieu = $lieu;
     }
-
 */
+
 }

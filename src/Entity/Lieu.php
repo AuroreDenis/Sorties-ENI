@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=LieuxRepository::class)
  */
-class Lieux
+class Lieu
 {
     /**
      * @ORM\Id
@@ -38,7 +38,7 @@ class Lieux
     private $longitude;
 
     /**
-     * @ORM\ManyToOne (targetEntity="App\Entity\Villes")
+     * @ORM\ManyToOne (targetEntity="Ville")
      */
     private $ville;
 

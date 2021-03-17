@@ -2,10 +2,11 @@
 
 namespace App\Form;
 
-use App\Entity\Etats;
-use App\Entity\Sorties;
+use App\Entity\Etat;
+use App\Entity\Sortie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,14 +14,6 @@ class SortiesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $ferme = new Etats();
-        $ferme->setLibelle('close');
-
-        $ouvert = new Etats();
-        $ouvert->setLibelle('ouvert');
-
-        $archive = new Etats();
-        $archive->setLibelle('qrchivée');
 
         $builder
             ->add('nom')
@@ -29,24 +22,25 @@ class SortiesType extends AbstractType
             ->add('date_cloture')
             ->add('nb_inscriptions_max')
             ->add('description_infos')
-            ->add('etat_sortie')
+         //   ->add('etat_sortie')
             ->add('url_photo')
-            ->add('etat', ChoiceType::class, [
-                'choices'  => [
-                    'ouvert' => $ouvert ,
-                    'fermé' => $ferme,
-                    'archivée' => $archive
-                    ]
-          ])
-       //    ->add('organisateur')
-          /*  ->add('lieux')
-       */ ;
+
+        //   ->add('lieu')
+
+
+        ->add('creer', SubmitType::class, [
+            'label' => 'Création'
+        ])
+            ->add('publier', SubmitType::class, [
+                'label' => 'Publication'
+            ]);
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Sorties::class,
+            'data_class' => Sortie::class,
         ]);
     }
 }

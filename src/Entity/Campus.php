@@ -27,7 +27,7 @@ class Campus
     /**
      * @var ArrayCollection $participants
      *
-     * @ORM\OneToMany(targetEntity="\App\Entity\Participants", mappedBy="campus", cascade={"persist", "remove", "merge"})
+     * @ORM\OneToMany(targetEntity="\App\Entity\Participants", mappedBy="campus")
      */
     private $participants;
 
