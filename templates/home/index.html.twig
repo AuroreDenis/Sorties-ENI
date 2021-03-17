@@ -29,8 +29,7 @@
             {% if is_granted('ROLE_USER') %}
                 <h3>menu user</h3>
                 <li><a href="{{ path('gerer_mon_profil_utilisateur') }}">mon profil utilisateur</a></li>
-                    <li>ville</li>
-                    <li>campus</li>
+
                     <li>accueil</li>
                     <li ><a href="{{ path('logout') }}">SE DECONNECTER</a></li>
                 {% endif %}
