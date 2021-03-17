@@ -55,28 +55,5 @@ class CampusController extends AbstractController
         return $this->redirectToRoute('gerer_campus');
     }
 
-    /**
-     * @Route("/campus/modifier/{id}/{nom}", name="modifier_campus", methods={"GET"})
-     **/
-    public function modifier ($id, $nom, EntityManagerInterface $em,Request $request): \Symfony\Component\HttpFoundation\RedirectResponse
-    {
-        $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
-        $campus = $campusRepo->find($id);
-        //************
-        $campus->setNomCampus($nom);
-        // formulaire, update
 
-            //sauvegarde en BDD ssi formulaire est renseigné
-            $em->persist($campus);
-            $em->flush();
-
-
-
-
-
-
-        //***************
-
-        return $this->redirectToRoute('gerer_campus');
-    }
 }

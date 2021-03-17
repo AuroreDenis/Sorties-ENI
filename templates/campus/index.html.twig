@@ -16,13 +16,21 @@
 {% endblock %}
 
 {% block main %}
+    <table>
+    <tr>
+        <th>Campus</th>
+        <th>Actions</th>
+    </tr>
+
     {% for u in allcampus %}
         <div>
-            {{ loop.index }}<input type="text"  value="{{ u.nomCampus }}"><a href=" {{ path('modifier_campus',{'id':u.id, 'nom':u.nomCampus}) }}">modifier </a><a href=" {{ path('delete_campus',{'id':u.id}) }}"> supprimer</a>
+            {{ loop.index }}<input type="text"  value="{{ u.nomCampus }}"><a href=" {{ path('delete_campus',{'id':u.id}) }}"> supprimer</a>
 
 
         </div>
     {% endfor %}
+
+    </table>
     {{ form(CampusForm) }}<button type="submit">Send!</button>
 
 {% endblock %}

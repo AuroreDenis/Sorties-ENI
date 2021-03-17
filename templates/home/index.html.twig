@@ -4,7 +4,7 @@
 
 {% block main %}
 
-<h1>MENU ADMIN</h1>
+<h2>main</h2>
 
 {% endblock %}
 
@@ -16,20 +16,30 @@
 
 
 
-            {% if is_granted ('IS_AUTHENTICATED_REMEMBERED') %}
-                <h2>bonjour {{ user.prenom }}</h2>
+            <h2>bonjour {{ user.prenom }}</h2>
+            {% if is_granted('ROLE_ADMIN') %}
+                <h3>menu admin</h3>
                 <li><a href="{{ path('creer_un_admin') }}">CREER UN ADMIN</a></li>
                 <li><a href="#">GERER UTILISATEUR</a></li>
                 <li><a href="{{ path('gerer_campus') }}">GERER LES CAMPUS</a></li>
                 <li><a href="#">GERER LES VILLES</a></li>
+                <li><a href="{{ path('logout') }}">SE DECONNECTER</a></li>
+                <hr>
+                {% endif %}
+            {% if is_granted('ROLE_USER') %}
+                <h3>menu user</h3>
+                <li><a href="{{ path('gerer_mon_profil_utilisateur') }}">mon profil utilisateur</a></li>
+                    <li>ville</li>
+                    <li>campus</li>
+                    <li>accueil</li>
+                    <li ><a href="{{ path('logout') }}">SE DECONNECTER</a></li>
+                {% endif %}
 
-                <li ><a href="{{ path('logout') }}">SE DECONNECTER</a></li>
-            {% else %}
 
 
 
 
-            {% endif %}
+
         </ul>
     </nav>
 {% endblock %}

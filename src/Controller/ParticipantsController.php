@@ -50,8 +50,9 @@ class ParticipantsController extends AbstractController
         $participant = new Participants();
         $registerForm = $this->createForm(ParticipantsType::class, $participant);
         $registerForm->handleRequest($request);
-        $campus = new Campus();
-        $participant->setCampus($campus);
+
+        //$participant->setCampus($campus);$campus = new Campus();
+
         if ($registerForm->isSubmitted() and $registerForm->isValid()) {
 
             //hasher le mot de passe avec class passwordEncoderInterface
@@ -60,7 +61,7 @@ class ParticipantsController extends AbstractController
 
             //sauvegarder mon utilsateur
             //try{
-            $em->persist($campus);
+
                 $em->persist($participant);
                 $em->flush();
                 $this->addFlash('success', 'le compte a été créé avec succès (veuillez-vous connecter maintenant)');

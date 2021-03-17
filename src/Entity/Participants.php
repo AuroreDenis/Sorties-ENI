@@ -68,10 +68,23 @@ class Participants implements UserInterface
 
     /**
      * @var Campus $campus
-     * @ORM\ManyToOne(targetEntity="App\Entity\Campus", inversedBy="participants", cascade={"persist", "merge", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Campus")
      */
     private $campus;
 
+    /**
+     * @return Campus
+     */
+    public function getCampus(): Campus
+    {
+        $campus = new Campus();
+        return $campus;
+    }
+    public function setCampus( $campus): self
+    {
+        $this->campus = $campus;
+        return $this;
+    }
 
     public function getId(): ?int
     {
@@ -95,24 +108,9 @@ class Participants implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
 
 
-        return array_unique($roles);
-    }
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
 
     /**
      * @see UserInterface
@@ -208,19 +206,34 @@ class Participants implements UserInterface
 
         return $this;
     }
+
+
+
+
+
     /**
-     * @return Campus
+     * @see UserInterface
      */
-    public function getCampus(): Campus
+    public function getRoles(): array
     {
-        $campus = new Campus();
-        return $campus;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+
+        return array_unique($roles);
     }
-
-    public function setCampus( $campus): self
+    public function setRoles(array $roles): self
     {
-        $this->campus = $campus;
-
+        $this->roles = $roles;
         return $this;
     }
+
+
+
+
+
+
+
+
+
+
 }
