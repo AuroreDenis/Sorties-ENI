@@ -42,13 +42,10 @@ class SortiesController extends AbstractController
 
         if ($filtreForm->isSubmitted() && $filtreForm->isValid()) { // si le formulaire est envoyé
 
-            $campusF = $filtre->getCampus();
-            $dateFin = $filtre->getDateFin();
-            return $this->redirectToRoute('sorties_list', [
+            $campusF=$filtre->getCampus();
+$dateFin = $filtre->getDateFin();
 
-            ]);
-        }
-            /*return $this->render('sortie/list.html.twig', [
+            return $this->render('sortie/list.html.twig', [
                 "sorties" => $sorties,
                 "campusFin" => $campusF,
             "dateFin" => $dateFin,
@@ -62,8 +59,9 @@ class SortiesController extends AbstractController
             "campusFin" => 'bien',
             "dateFin" => date('dd-MM-yyyy'),
             "filtreForm" => $filtreForm->createView()
-        ]);*/
+        ]);
     }
+
 /********************************************** Création d'une sortie *****************************************/
     /**
      * @Route("/sorties/add", name="sortie_add")
@@ -206,8 +204,10 @@ class SortiesController extends AbstractController
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
         $campus = $campusRepo->findAll();
 
+        return $this->redirectToRoute('sorties_list', [
 
-
+        ]);
+        /*
         return $this->render('sortie/list.html.twig',[
 
             "sorties" => $sorties,
@@ -216,6 +216,6 @@ class SortiesController extends AbstractController
             "dateFin" => date('dd-MM-yyyy'),
             "filtreForm" => $filtreForm->createView()
 
-        ]);
+        ]);*/
     }
 }
