@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Filtre;
-use App\Entity\Inscription;
 use App\Entity\Lieu;
 use App\Entity\Participants;
 use App\Entity\Sortie;
@@ -73,7 +72,7 @@ $dateFin = $filtre->getDateFin();
 
         /******************* récupération de l'orga ********************/
         //l'organisateur est l'utilisateur connecté
-        $orga = $this->getUser();
+        $orga =  $this->getUser();
        $sortie->setOrganisateur($orga);
 
 
@@ -106,11 +105,13 @@ $dateFin = $filtre->getDateFin();
             }
             $sortie->setEtat($etat);
 
-            /***************** récupération du lieu ****************
-         $lieu = new Lieu();
-         $lieu->setNomLieu('là-bas');
-         $sortie->setLieu($lieu);
-*/
+            /***************** récupération du lieu ****************/
+
+            $lieuRepo = $this->getDoctrine()->getRepository(Lieu::class);
+          //  $sortie->getLieu();
+         //$lieu = $lieuRepo->findOneBy([])
+         //$sortie->setLieu($lieu);
+
             $em->persist($sortie);
             $em->flush();
 
@@ -192,6 +193,7 @@ $dateFin = $filtre->getDateFin();
         //ajoute le participant à la sortie et la sortie au participant
         $sortie->addParticipants($user);
         $user->addSortie($sortie);
+
 
         // enregistrement en bdd
         $em->persist($sortie);

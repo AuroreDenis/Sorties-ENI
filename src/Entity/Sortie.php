@@ -113,14 +113,10 @@ class Sortie
         return $this;
     }
 
-
-
-
-   /*
     /**
     * @ORM\ManyToOne (targetEntity="App\Entity\Lieu")
     */
-  //  private $lieu;
+   private $lieu;
 
     public function getId(): ?int
     {
@@ -253,10 +249,10 @@ class Sortie
     }
 
 
-/*
+
     /**
      * @return mixed
-     *//*
+     */
     public function getLieu()
     {
         return $this->lieu;
@@ -264,11 +260,10 @@ class Sortie
 
     /**
      * @param mixed $lieu
-     *//*
+     */
     public function setLieu($lieu): void
     {
         $this->lieu = $lieu;
     }
-*/
 
 }

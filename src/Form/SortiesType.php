@@ -5,6 +5,7 @@ namespace App\Form;
 
 use App\Entity\Sortie;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,7 +23,17 @@ class SortiesType extends AbstractType
             ->add('nb_inscriptions_max')
             ->add('description_infos')
             ->add('url_photo')
-        //   ->add('lieu')
+            ->add('ville', ChoiceType::class, [
+                'label' => 'Souhaitez vous modifier vos données personnelles',
+                'mapped' => false,
+                'choices'  => [
+        'Nantes' => 'Nantes',
+        'Rennes' => 'Rennes',
+    ],
+            ])
+            ->add('lieu', ChoiceType::class,[
+
+                ])
 
         ->add('creer', SubmitType::class, [
             'label' => 'Création'

@@ -37,8 +37,9 @@ class Lieu
      */
     private $longitude;
 
+
     /**
-     * @ORM\ManyToOne (targetEntity="Ville")
+     * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieux")
      */
     private $ville;
 
