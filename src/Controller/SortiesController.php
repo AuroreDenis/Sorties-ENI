@@ -136,14 +136,10 @@ $dateFin = $filtre->getDateFin();
     {
         $sortiesRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortiesRepo->find($id);
-        //trouver l incription qui coorespond
-        $incriptionRepo =$this->getDoctrine()->getRepository(Inscription::class);
-        $id2=$sortie->getInscriptions();
-        $incription=$incriptionRepo->find($id2);
-        $participants=$incription->getParticipants();
+
 
         return $this->render('sortie/detail.html.twig', [
-            "sortie" => $sortie, "participants" => $participants
+            "sortie" => $sortie
         ]);
     }
 

@@ -38,10 +38,12 @@
         <th>PSEUDO</th>
         <th>NOM</th>
     </tr>
+    {% for participant in sortie.participants %}
     <tr>
-        <td>philip</td>
-        <td>BOIN</td>
+        <td>{{ participant.username }}</td>
+        <td>{{ participant.prenom }}</td>
     </tr>
+        {% endfor %}
     </TABLE>
     {%  endblock %}
 
