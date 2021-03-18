@@ -56,9 +56,11 @@ class SortiesController extends AbstractController
         $dateClot=new \DateTime('now');
         $dateClot ->add(new DateInterval('P180D'));
         $dateJour=new \DateTime('now');
+        $dateJour ->sub(new DateInterval('P31D'));
+        $dateJb=new \DateTime('now');
 
         return $this->render('sortie/list.html.twig', [
-
+            "dateJb" => $dateJb,
             "sorties" => $sorties,
             "campus" => $campus,
             "campusFin" => 'bien',
