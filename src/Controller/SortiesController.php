@@ -11,6 +11,7 @@ use App\Entity\Sortie;
 
 use App\Form\FiltreType;
 use App\Form\SortiesType;
+use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +43,7 @@ class SortiesController extends AbstractController
         if ($filtreForm->isSubmitted() && $filtreForm->isValid()) { // si le formulaire est envoyé
 
             $campusF=$filtre->getCampus();
-$dateFin = $filtre->getDateFin();
+            $dateFin = $filtre->getDateFin();
 
             return $this->render('sortie/list.html.twig', [
                 "sorties" => $sorties,
@@ -51,13 +52,20 @@ $dateFin = $filtre->getDateFin();
             "filtreForm" => $filtreForm->createView()
             ]);
         }
+        // initialiser les values des dates
+        $dateClot=new \DateTime('now');
+        $dateClot ->add(new DateInterval('P180D'));
+        $dateJour=new \DateTime('now');
 
         return $this->render('sortie/list.html.twig', [
+
             "sorties" => $sorties,
             "campus" => $campus,
             "campusFin" => 'bien',
-            "dateFin" => date('dd-MM-yyyy'),
+            "dateClot" => $dateClot,
+            "dateJour" => $dateJour,
             "filtreForm" => $filtreForm->createView()
+//|date('dd-MM-yyyy'),
         ]);
     }
 

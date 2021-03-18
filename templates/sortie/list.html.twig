@@ -29,7 +29,7 @@
         </TR>
 
     {%  for sortie in sorties %}
-{%  if dateFin > sortie.dateCloture  %}
+{%  if dateJour < sortie.dateCloture and dateClot>sortie.dateCloture %}
         <TR>
             <TD> {{ sortie.nom }} </TD>
             <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
