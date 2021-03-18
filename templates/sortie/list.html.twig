@@ -21,10 +21,12 @@
     <TABLE border="1">
         <TR>
             <TH> Nom de la sortie </TH>
-            <TH> Date  </TH>
+            <TH> Date  de la sortie</TH>
             <TH> Clôture </TH>
-            <TH> Nombre d'inscrit </TH>
+            <TH> inscrits/places </TH>
             <TH> Etat </TH>
+            <th> inscrite </th>
+            <th> organisateur </th>
             <TH> Actions </TH>
         </TR>
 
@@ -34,8 +36,10 @@
             <TD> {{ sortie.nom }} </TD>
             <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
             <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
-            <td> {{ sortie.nbInscriptionsMax }}</td>
+            <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
             <td> {{ sortie.etat.libelle }}</td>
+            <td> {% if user in sortie.participants %} X {%  endif %}</td>
+            <td> {{ sortie.organisateur.nom }}</td>
             <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
                 {% if sortie.dateCloture>dateJb  %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>
                 <a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}

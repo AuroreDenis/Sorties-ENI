@@ -3,7 +3,9 @@
 namespace App\Form;
 
 
+use App\Entity\Lieu;
 use App\Entity\Sortie;
+use App\Entity\Ville;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -14,6 +16,15 @@ class SortiesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $ville1 =new Ville();
+        $ville1->setCodePostal('11111');
+        $ville1->setNomVille('ville1');
+        $lieu1 = new Lieu();
+        $lieu1->setNomLieu('Lieu1');
+        $lieu1->setLatitude(1.1);
+        $lieu1->setLongitude(1.1);
+        $lieu1->setRue('rue1');
+        $lieu1->setVille($ville1);
 
         $builder
             ->add('nom')
@@ -24,7 +35,7 @@ class SortiesType extends AbstractType
             ->add('description_infos')
             ->add('url_photo')
             ->add('ville', ChoiceType::class, [
-                'label' => 'Souhaitez vous modifier vos données personnelles',
+                'label' => 'Ville',
                 'mapped' => false,
                 'choices'  => [
         'Nantes' => 'Nantes',
@@ -32,6 +43,9 @@ class SortiesType extends AbstractType
     ],
             ])
             ->add('lieu', ChoiceType::class,[
+                'choices'  => [
+                    'Lieu1' => $lieu1
+                ],
 
                 ])
 

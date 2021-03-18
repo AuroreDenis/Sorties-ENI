@@ -9,6 +9,7 @@ use App\Entity\Lieu;
 use App\Entity\Participants;
 use App\Entity\Sortie;
 
+use App\Entity\Ville;
 use App\Form\FiltreType;
 use App\Form\SortiesType;
 use DateInterval;
@@ -27,31 +28,25 @@ class SortiesController extends AbstractController
      */
     public function list(Request $request)
     {
+        //récupère toutes les sorties
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sorties = $sortieRepo->findAll();
 
+
+        //récupère tous les campus
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
         $campus = $campusRepo->findAll();
 
-        $filtre = new Filtre();
 
+        $user = $this->getUser();
+
+        // formulaire - filtres
+        $filtre = new Filtre();
         $filtreForm = $this->createForm(FiltreType::class, $filtre);
 
         //hydrate le formulaire
         $filtreForm->handleRequest($request);
 
-        if ($filtreForm->isSubmitted() && $filtreForm->isValid()) { // si le formulaire est envoyé
-
-            $campusF=$filtre->getCampus();
-            $dateFin = $filtre->getDateFin();
-
-            return $this->render('sortie/list.html.twig', [
-                "sorties" => $sorties,
-                "campusFin" => $campusF,
-            "dateFin" => $dateFin,
-            "filtreForm" => $filtreForm->createView()
-            ]);
-        }
         // initialiser les values des dates
         $dateClot=new \DateTime('now');
         $dateClot ->add(new DateInterval('P180D'));
@@ -59,14 +54,40 @@ class SortiesController extends AbstractController
         $dateJour ->sub(new DateInterval('P31D'));
         $dateJb=new \DateTime('now');
 
+        if ($filtreForm->isSubmitted() && $filtreForm->isValid()) { // si le formulaire est envoyé
+
+            $campusF=$filtre->getCampus();
+            $dateFin = $filtre->getDateFin();
+            $inscrit = $filtre->getInscrit();
+            $organisatrice = $filtre->getOrga();
+            $end = $filtre->getClose();
+
+            return $this->render('sortie/list.html.twig', [
+                "dateJb" => $dateJb,
+                "sorties" => $sorties,
+                "campusFin" => $campusF,
+                "dateJour" => $dateJour,
+                "dateClot" => $dateClot,
+            "dateFin" => $dateFin,
+            "filtreForm" => $filtreForm->createView(),
+                "user" => $user,
+                "inscrit" => $inscrit,
+                "orga" => $organisatrice,
+                "end" => $end
+
+            ]);
+        }
         return $this->render('sortie/list.html.twig', [
             "dateJb" => $dateJb,
             "sorties" => $sorties,
-            "campus" => $campus,
             "campusFin" => 'bien',
             "dateClot" => $dateClot,
             "dateJour" => $dateJour,
-            "filtreForm" => $filtreForm->createView()
+            "filtreForm" => $filtreForm->createView(),
+            "user" => $user,
+                "inscrit" => false,
+                "orga" => false,
+                "end" => false
 //|date('dd-MM-yyyy'),
         ]);
     }
@@ -79,12 +100,15 @@ class SortiesController extends AbstractController
     {
         $sortie = new Sortie();
 
+        /**************************** Récupération de la ville *************************************/
+
+        $villeRepo = $this->getDoctrine()->getRepository(Ville::class);
+        $villes = $villeRepo->findAll();
 
         /******************* récupération de l'orga ********************/
         //l'organisateur est l'utilisateur connecté
         $orga =  $this->getUser();
        $sortie->setOrganisateur($orga);
-
 
 
 
@@ -114,13 +138,9 @@ class SortiesController extends AbstractController
                 $etat = $etatRepo->findOneBy(['libelle' => 'Fermé']);
             }
             $sortie->setEtat($etat);
+$lieu = $sortie->getLieu();
 
-            /***************** récupération du lieu ****************/
-
-            $lieuRepo = $this->getDoctrine()->getRepository(Lieu::class);
-          //  $sortie->getLieu();
-         //$lieu = $lieuRepo->findOneBy([])
-         //$sortie->setLieu($lieu);
+$em->persist($lieu);
 
             $em->persist($sortie);
             $em->flush();

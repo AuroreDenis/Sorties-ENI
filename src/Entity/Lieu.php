@@ -39,7 +39,7 @@ class Lieu
 
 
     /**
-     * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieux")
+     * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieux", cascade="persist")
      */
     private $ville;
 

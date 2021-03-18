@@ -29,7 +29,8 @@ class FiltreType extends AbstractType
     ])
 
             ->add('Search', TextType::class, [
-                'label' => 'Le nom de la sortie contient :'
+                'label' => 'Le nom de la sortie contient :',
+                'required'=>false
             ])
             ->add('DateDebut', DateType::class,[
                 'label' => 'Entre le ',
