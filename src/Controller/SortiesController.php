@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Filtre;
+use App\Entity\Inscription;
 use App\Entity\Lieu;
 use App\Entity\Participants;
 use App\Entity\Sortie;
@@ -132,8 +133,14 @@ class SortiesController extends AbstractController
     {
         $sortiesRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortiesRepo->find($id);
+        //trouver l incription qui coorespond
+        $incriptionRepo =$this->getDoctrine()->getRepository(Inscription::class);
+        $id2=$sortie->getInscriptions();
+        $incription=$incriptionRepo->find($id2);
+        $participants=$incription->getParticipants();
+
         return $this->render('sortie/detail.html.twig', [
-            "sortie" => $sortie
+            "sortie" => $sortie, "participants" => $participants
         ]);
     }
 
@@ -170,6 +177,28 @@ class SortiesController extends AbstractController
             "SortiesType"=>  $sortieForm->createView()
         ]);
     }
+/***********************************s incrire à une sortie**********************************************/
+
+    /**
+     * @Route("/sorties/s'inscrire/{id}", name="sinscrire_sortie", requirements={"id": "\d+"} )
+     */
+    public function sinscrire($id, EntityManagerInterface $em, Request $request)
+    {
+        $user=$this->getUser();
+        // récupérer la sortie à modifier
+        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $sortieRepo->find($id);
+        $liste=$sortie->getParticipants();
+        $this->$liste[] = $user;
+        $sortie->setParticipants($liste);
+        // enregistrement en bdd
+        $em->persist($sortie);
+        $em->flush();
 
 
+
+        return $this->render('sortie/list.html.twig',[
+
+        ]);
+    }
 }

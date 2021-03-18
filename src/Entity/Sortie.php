@@ -70,38 +70,40 @@ class Sortie
      private $organisateur;
 
 
-//      /**
-//     * @var ArrayCollection $inscriptions
-//     *
-//     * @ORM\OneToMany(targetEntity="\App\Entity\Inscriptions", mappedBy="sortie", cascade={"persist", "remove", "merge"})
-//     */
-//    private $inscriptions;
+   /**
+   *
+   * @ORM\ManyToMany(targetEntity="App\Entity\Participants", mappedBy="sortie", cascade={"persist"})
+   */
+    private $participants;
 
-    //   /**
-    //* @param Inscriptions $inscriptions
-    //*/
-    //public function addInscriptions(Inscriptions $inscriptions) {
-    //   $inscriptions->setSortie($this);
+    /**
+     * Sortie constructor.
+     * @param $participants
+     */
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
 
-        // Si l'objet fait déjà partie de la collection on ne l'ajoute pas
-    //    if (!$this->$inscriptions->contains($inscriptions)) {
-    //       $this->$inscriptions->add($inscriptions);
-    //   }
-    //}
+    /**
+     * @return ArrayCollection
+     */
+    public function getParticipants()
+    {
+        return $this->participants;
+    }
 
-    ///**
-    //* @return ArrayCollection $participants
-    //*/
-    //public function getInscriptions() {
-    //   return $this->inscriptions;
-    //}
-
-    //public function __construct() {
-    //    $this->inscriptions = new ArrayCollection();
-    //}
+    /**
+     * @param mixed $participants
+     */
+    public function setParticipants($participants): void
+    {
+        $this->participants = $participants;
+    }
 
 
-/*
+
+   /*
     /**
     * @ORM\ManyToOne (targetEntity="App\Entity\Lieu")
     */

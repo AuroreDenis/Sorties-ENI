@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ParticipantsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -71,6 +72,37 @@ class Participants implements UserInterface
      * @ORM\ManyToOne(targetEntity="App\Entity\Campus")
      */
     private $campus;
+
+    /**
+     * @ORM\ManyToMany (targetEntity="App\Entity\Sortie",  inversedBy="participants", cascade={"persist"})
+     */
+    private $sortie;
+
+    /**
+     * Participants constructor.
+     * @param $sortie
+     */
+    public function __construct()
+    {
+        $this->sortie = new ArrayCollection();
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getSortie(): ArrayCollection
+    {
+        return $this->sortie;
+    }
+
+    /**
+     * @param ArrayCollection $sortie
+     */
+    public function setSortie(ArrayCollection $sortie): void
+    {
+        $this->sortie = $sortie;
+    }
+
 
     /**
      * @return Campus
