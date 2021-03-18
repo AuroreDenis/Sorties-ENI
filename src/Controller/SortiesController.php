@@ -64,7 +64,6 @@ class SortiesController extends AbstractController
             "filtreForm" => $filtreForm->createView()
         ]);*/
     }
-
 /********************************************** Création d'une sortie *****************************************/
     /**
      * @Route("/sorties/add", name="sortie_add")
