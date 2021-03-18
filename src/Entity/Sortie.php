@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SortiesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -71,8 +72,7 @@ class Sortie
 
 
    /**
-   *
-   * @ORM\ManyToMany(targetEntity="App\Entity\Participants", mappedBy="sortie", cascade={"persist"})
+   * @ORM\ManyToMany(targetEntity="App\Entity\Participants", mappedBy="sorties")
    */
     private $participants;
 
@@ -86,20 +86,33 @@ class Sortie
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection|Participants[]
      */
-    public function getParticipants()
+    public function getParticipants(): Collection
     {
         return $this->participants;
     }
 
-    /**
-     * @param mixed $participants
-     */
-    public function setParticipants($participants): void
+    //ajouter un participant
+    public function addParticipants(Participants $participant): self
     {
-        $this->participants = $participants;
+        if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
+            $participant->addSortie($this);
+        }
+        return $this;
     }
+
+    //enlever un participant
+    public function removeParticipants(Participants $participant): self
+    {
+        if ($this->participants->contains($participant)) {
+            $this->participants->removeElement($participant);
+            $participant->removeSortie($this);
+        }
+        return $this;
+    }
+
 
 
 

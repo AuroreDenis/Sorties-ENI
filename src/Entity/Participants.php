@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ParticipantsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -74,33 +75,40 @@ class Participants implements UserInterface
     private $campus;
 
     /**
-     * @ORM\ManyToMany (targetEntity="App\Entity\Sortie",  inversedBy="participants", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\Sortie",  inversedBy="participants")
      */
-    private $sortie;
+    private $sorties;
 
-    /**
-     * Participants constructor.
-     * @param $sortie
-     */
+
     public function __construct()
     {
         $this->sortie = new ArrayCollection();
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection|Participants[]
      */
-    public function getSortie(): ArrayCollection
+    public function getSorties(): Collection
     {
-        return $this->sortie;
+        return $this->sorties;
     }
 
-    /**
-     * @param ArrayCollection $sortie
-     */
-    public function setSortie(ArrayCollection $sortie): void
+    //ajouter une sortie
+    public function addSortie(Sortie $sortie): self
     {
-        $this->sortie = $sortie;
+        if (!$this->sorties->contains($sortie)) {
+            $this->sorties[] = $sortie;
+        }
+        return $this;
+    }
+
+    //enlever une sortie
+    public function removeSortie(Sortie $sortie): self
+    {
+        if ($this->sorties->contains($sortie)) {
+            $this->sorties->removeElement($sortie);
+        }
+        return $this;
     }
 
 

@@ -10,9 +10,13 @@
 
     <h2> Filtrer les sorties </h2>
 
+{{ form_start(filtreForm) }}
+    {{ form_widget(filtreForm)}}
+    <input type="submit" value="Rechercher">
+    {{ form_end(filtreForm) }}
 
-    {{ form(filtreForm)}}
 
+    <h3> {{ campusFin }}</h3>
         <h2> Les sorties </h2>
     <TABLE border="1">
         <TR>
@@ -25,7 +29,7 @@
         </TR>
 
     {%  for sortie in sorties %}
-
+{%  if dateFin > sortie.dateCloture  %}
         <TR>
             <TD> {{ sortie.nom }} </TD>
             <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
@@ -36,6 +40,7 @@
                 </td>
 
         </TR>
+        {% endif %}
         {% endfor %}
     </TABLE>
     {%  endblock %}

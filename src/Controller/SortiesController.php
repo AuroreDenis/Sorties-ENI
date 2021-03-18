@@ -43,18 +43,21 @@ class SortiesController extends AbstractController
         if ($filtreForm->isSubmitted() && $filtreForm->isValid()) { // si le formulaire est envoyé
 
             $campusF=$filtre->getCampus();
-
+$dateFin = $filtre->getDateFin();
 
             return $this->render('sortie/list.html.twig', [
                 "sorties" => $sorties,
-                "campus" => $campusF,]);
-
-
+                "campusFin" => $campusF,
+            "dateFin" => $dateFin,
+            "filtreForm" => $filtreForm->createView()
+            ]);
         }
 
         return $this->render('sortie/list.html.twig', [
             "sorties" => $sorties,
             "campus" => $campus,
+            "campusFin" => 'bien',
+            "dateFin" => date('dd-MM-yyyy'),
             "filtreForm" => $filtreForm->createView()
         ]);
     }
@@ -177,27 +180,43 @@ class SortiesController extends AbstractController
             "SortiesType"=>  $sortieForm->createView()
         ]);
     }
-/***********************************s incrire à une sortie**********************************************/
+/***********************************s s'inscrire à une sortie**********************************************/
 
     /**
      * @Route("/sorties/s'inscrire/{id}", name="sinscrire_sortie", requirements={"id": "\d+"} )
      */
     public function sinscrire($id, EntityManagerInterface $em, Request $request)
     {
+        // on récupère l'user
         $user=$this->getUser();
         // récupérer la sortie à modifier
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortieRepo->find($id);
-        $liste=$sortie->getParticipants();
-        $this->$liste[] = $user;
-        $sortie->setParticipants($liste);
+
+        //ajoute le participant à la sortie et la sortie au participant
+        $sortie->addParticipants($user);
+        $user->addSortie($sortie);
+
         // enregistrement en bdd
         $em->persist($sortie);
         $em->flush();
 
+        //on récupère le fomulaire et plein de truc
+        $filtreForm = $this->createForm(SortiesType::class, $sortie);
+        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sorties = $sortieRepo->findAll();
+        $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
+        $campus = $campusRepo->findAll();
+
 
 
         return $this->render('sortie/list.html.twig',[
+
+            "sorties" => $sorties,
+            "campus" => $campus,
+            "campusFin" => 'bien',
+            "dateFin" => date('dd-MM-yyyy'),
+            "filtreForm" => $filtreForm->createView()
 
         ]);
     }
