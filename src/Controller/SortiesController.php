@@ -207,25 +207,44 @@ class SortiesController extends AbstractController
         $em->persist($sortie);
         $em->flush();
 
-        //on récupère le fomulaire et plein de truc
-        $filtreForm = $this->createForm(SortiesType::class, $sortie);
-        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
-        $sorties = $sortieRepo->findAll();
-        $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
-        $campus = $campusRepo->findAll();
+
 
         return $this->redirectToRoute('sorties_list', [
 
         ]);
-        /*
-        return $this->render('sortie/list.html.twig',[
 
-            "sorties" => $sorties,
-            "campus" => $campus,
-            "campusFin" => 'bien',
-            "dateFin" => date('dd-MM-yyyy'),
-            "filtreForm" => $filtreForm->createView()
+    }
 
-        ]);*/
+    /*************************************SE DESISTER***********************************************************/
+
+    /**
+     * @Route("/sorties/seDesister/{id}", name="seDesister_sortie", requirements={"id": "\d+"} )
+     *
+     */
+    public function seDesister($id, EntityManagerInterface $em, Request $request)
+    {
+        // on récupère l'user
+        $user=$this->getUser();
+        // récupérer la sortie à modifier
+        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $sortieRepo->find($id);
+
+        //retirer le participant à la sortie et la sortie au participant
+
+        $sortie->removeParticipants($user);
+        $user->removeSortie($sortie);
+
+        //enregister en bdd
+        $em->persist($sortie);
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('sorties_list', [
+
+        ]);
+
+
+
+
     }
 }
