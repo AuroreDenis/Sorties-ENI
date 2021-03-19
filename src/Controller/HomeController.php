@@ -16,16 +16,9 @@ class HomeController extends AbstractController
      */
     public function index(): Response
     {
-        $user=$this->getUser();
-        //$role=$this->getUser()->getActif();
-        $role=1;
-        if ($role==1) {
-            $role="ROLE_ADMIN";
-        } else {
-            $role="ROLE_USER";
-        }
-        return $this->render('home/index.html.twig', [
-            'user'=>$user, 'role'=>$role
+
+        return $this->redirectToRoute('sorties_list', [
+
         ]);
     }
 }

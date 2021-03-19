@@ -16,7 +16,7 @@
 
 
 
-            <h2>bonjour {{ user.prenom }}</h2>
+
             {% if is_granted('ROLE_ADMIN') %}
                 <h3>menu admin</h3>
                 <li><a href="{{ path('creer_un_admin') }}">CREER UN ADMIN</a></li>
