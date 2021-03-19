@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title%} {{ parent() }} | Liste des sorties {%  endblock %}
+
+{% block main %}
+        <h2> Détails Participant</h2>
+
+<h4>peudo: {{ participant.username }}</h4>
+<h4>prenom: {{ participant.prenom }}</h4>
+<h4>nom: {{ participant.nom }}</h4>
+<h4>tel: {{ participant.telephone }}</h4>
+<h4>mail: {{ participant.mail }}</h4>
+<h4>actif: {{ participant.actif }}</h4>
+<h4>campus: n°{{ participant.campus| join(",") }}</h4>
+    {# <a href="path('sorties_list')" >RETOUR</a> #}
+    <a href=javascript:history.go(-1)>Retour</a>
+
+{% endblock %}
+
+
