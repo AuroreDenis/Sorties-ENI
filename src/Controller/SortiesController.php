@@ -18,6 +18,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class SortiesController extends AbstractController
 {
@@ -28,6 +30,7 @@ class SortiesController extends AbstractController
      */
     public function list(Request $request)
     {
+
         //récupère toutes les sorties
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sorties = $sortieRepo->findAll();
@@ -39,6 +42,11 @@ class SortiesController extends AbstractController
 
 
         $user = $this->getUser();
+        dump($user);
+        //$fmt = new IntlDateFormatter("fr_FR", IntlDateFormatter::FULL, IntlDateFormatter::NONE);
+        //$fmt->format(new DateTime('now'));
+
+        // $userDetails = $userRepository->findBy(['name' => $user]);
 
         // formulaire - filtres
         $filtre = new Filtre();
@@ -53,7 +61,7 @@ class SortiesController extends AbstractController
         $dateJour=new \DateTime('now');
         $dateJour ->sub(new DateInterval('P31D'));
         $dateJb=new \DateTime('now');
-        $user=$this->getUser();
+        //$user=$this->getUser();
         if ($filtreForm->isSubmitted() && $filtreForm->isValid()) { // si le formulaire est envoyé
 
             $campusF=$filtre->getCampus();

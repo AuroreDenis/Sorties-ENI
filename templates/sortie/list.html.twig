@@ -18,7 +18,7 @@
 
             {% if is_granted('ROLE_ADMIN') %}
                 <h3>menu admin</h3>
-                <li><a href="{{ path('creer_un_admin') }}">CREER UN ADMIN</a></li>
+                <li><a href="{{ path('creer_un_admin') }}">CREER UN UTILISATEUR</a></li>
                 <li><a href="#">GERER UTILISATEUR</a></li>
                 <li><a href="{{ path('gerer_campus') }}">GERER LES CAMPUS</a></li>
                 <li><a href="#">GERER LES VILLES</a></li>
@@ -41,12 +41,14 @@
 
         </ul>
     </nav>
+
 {% endblock %}
 
 
 
 {% block main %}
-
+    <h3>Date du jour: {{ dateJb|date("d/m/Y") }}</h3>
+    <h3>Particpant: {{ user.prenom }}  {{ user.nom }}</h3>
     <h2> Filtrer les sorties </h2>
 
 {{ form_start(filtreForm) }}
