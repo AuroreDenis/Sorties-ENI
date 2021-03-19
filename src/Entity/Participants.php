@@ -69,7 +69,6 @@ class Participants implements UserInterface
     private $actif=1;
 
     /**
-     *
      * @ORM\Column (type="object")
      */
     private $campus;
@@ -151,11 +150,6 @@ class Participants implements UserInterface
     {   $this->campus=null;
         $this->campus = $campus ;
     }
-
-
-
-
-
 
 
     /**

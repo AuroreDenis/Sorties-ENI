@@ -20,7 +20,6 @@ class ParticipantsController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-
         if ($this->getUser()) {
             $user=$this->getUser()->getActif();// si actif=0 deconnexion
             if (!$user) {

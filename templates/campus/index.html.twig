@@ -9,7 +9,7 @@
 {% block nav %}
     {% if is_granted ('IS_AUTHENTICATED_REMEMBERED') %}
 
-    <li><a href="{{ path('home') }}">ACCUEIL</a></li>
+    <li><a href="{{ path('sorties_list') }}">ACCUEIL</a></li>
     <li><a href="#">MON PROFIL</a></li>
     <li ><a href="{{ path('logout') }}">SE DECONNECTER</a></li>
     {% endif %}

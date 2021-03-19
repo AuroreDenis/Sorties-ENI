@@ -17,6 +17,7 @@ class Campus
      * @ORM\Column(type="integer")
      */
     private $id;
+
     /**
      * @ORM\Column(type="json")
      */
@@ -26,13 +27,16 @@ class Campus
     {
         return $this->id;
     }
+
     public function getNomCampus(): ?string
     {
         return $this->nom_campus;
     }
+
     public function setNomCampus(string $nom_campus): self
     {
         $this->nom_campus = $nom_campus;
+
         return $this;
     }
 }

@@ -40,7 +40,7 @@ class GererMonProfilUtilisateurController extends AbstractController
             $em->persist($participant);
             $em->flush();
             $this->addFlash('success', 'le compte a été modifié avec succès');
-            return $this->redirectToRoute('home', [
+            return $this->redirectToRoute('sorties_list', [
                 'controller_name' => 'HomeController',
             ]);
 

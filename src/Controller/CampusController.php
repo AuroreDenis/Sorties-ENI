@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Campus;
 use App\Form\CampusType;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,11 +33,6 @@ class CampusController extends AbstractController
             $em->flush();
             $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
             $allcampus = $campusRepo->findAll();
-
-
-
-
-
         }
         return $this->render('campus/index.html.twig', [ 'allcampus'=>$allcampus , 'CampusForm'=>$CampusForm->createView(), ]);
     }
@@ -54,6 +48,4 @@ class CampusController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('gerer_campus');
     }
-
-
 }

@@ -28,7 +28,7 @@ class ParticipantsType extends AbstractType
             ->add('telephone')
             ->add('mail')
             //->add('actif')
-            ->add('campus', EntityType::class, ['class'=>Campus::class, 'choice_label' => 'nom_campus',
+            ->add('campus', EntityType::class, ['class'=>Campus::class, 'choice_label' => 'nom_ville',
                 'multiple'=> false, 'expanded'=> false,
                 ])
             //->add('roles')

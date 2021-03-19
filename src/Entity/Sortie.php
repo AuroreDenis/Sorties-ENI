@@ -50,30 +50,24 @@ class Sortie
     private $description_infos;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $etat_sortie;
-
-    /**
      * @ORM\Column(type="string", length=250)
      */
     private $url_photo;
 
-
-   /**
-    * @ORM\ManyToOne(targetEntity="Etat")
-    */
+    /**
+     * @ORM\ManyToOne(targetEntity="Etat",fetch="EAGER")
+     */
     private $etat;
 
-   /**
-* @ORM\ManyToOne (targetEntity="App\Entity\Participants")
-    */
-     private $organisateur;
+    /**
+     * @ORM\ManyToOne (targetEntity="App\Entity\Participants",fetch="EAGER")
+     */
+    private $organisateur;
 
 
-   /**
-   * @ORM\ManyToMany(targetEntity="App\Entity\Participants", mappedBy="sorties")
-   */
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Participants", mappedBy="sorties")
+     */
     private $participants;
 
     /**
@@ -114,9 +108,9 @@ class Sortie
     }
 
     /**
-    * @ORM\ManyToOne (targetEntity="App\Entity\Lieu")
-    */
-   private $lieu;
+     * @ORM\ManyToOne (targetEntity="App\Entity\Lieu")
+     */
+    private $lieu;
 
     public function getId(): ?int
     {
@@ -230,7 +224,7 @@ class Sortie
     /**
      * @param Etat $etat
      */
-  public function setEtat(Etat $etat): void
+    public function setEtat(Etat $etat): void
     {
 
         $this->etat = $etat;

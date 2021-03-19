@@ -18,7 +18,15 @@ class SortiesRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Sortie::class);
     }
+/*
+    public function sortiesEtEtat(){
 
+        $em = $this->getEntityManager();
+        $rqt = "SELECT s FROM App\Entity\Sortie INNER JOIN App\Entity\Etat on s.etat=e.id";
+        $query = $em->createQueryBuilder($rqt);
+        $result = $query->getQuery()->getResult();
+        return $result;
+    }
     // /**
     //  * @return Sorties[] Returns an array of Sorties objects
     //  */

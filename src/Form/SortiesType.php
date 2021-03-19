@@ -2,12 +2,11 @@
 
 namespace App\Form;
 
-
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,15 +15,6 @@ class SortiesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $ville1 =new Ville();
-        $ville1->setCodePostal('11111');
-        $ville1->setNomVille('ville1');
-        $lieu1 = new Lieu();
-        $lieu1->setNomLieu('Lieu1');
-        $lieu1->setLatitude(1.1);
-        $lieu1->setLongitude(1.1);
-        $lieu1->setRue('rue1');
-        $lieu1->setVille($ville1);
 
         $builder
             ->add('nom')
@@ -34,20 +24,19 @@ class SortiesType extends AbstractType
             ->add('nb_inscriptions_max')
             ->add('description_infos')
             ->add('url_photo')
-            ->add('ville', ChoiceType::class, [
-                'label' => 'Ville',
+            ->add('ville', EntityType::class, [
                 'mapped' => false,
-                'choices'  => [
-        'Nantes' => 'Nantes',
-        'Rennes' => 'Rennes',
-    ],
+                'class'=>Ville::class,
+                'choice_label' => 'nom_ville',
+                'multiple'=> false, 'expanded'=> false,
             ])
-            ->add('lieu', ChoiceType::class,[
-                'choices'  => [
-                    'Lieu1' => $lieu1
-                ],
-
-                ])
+            ->add('lieu', EntityType::class, [
+                'mapped' => false,
+                'class'=>Lieu::class,
+                'choice_label' => 'nom_lieu',
+                'multiple'=> false,
+                'expanded'=> false,
+            ])
 
         ->add('creer', SubmitType::class, [
             'label' => 'Création'

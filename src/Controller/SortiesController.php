@@ -12,6 +12,8 @@ use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Form\FiltreType;
 use App\Form\SortiesType;
+use App\Repository\EtatsRepository;
+use App\Repository\ParticipantsRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +21,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class SortiesController extends AbstractController
 {
@@ -41,6 +42,7 @@ class SortiesController extends AbstractController
         //récupère toutes les sorties
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sorties = $sortieRepo->findAll();
+
 
 
         //récupère tous les campus
@@ -82,8 +84,8 @@ class SortiesController extends AbstractController
                 "campusFin" => $campusF,
                 "dateJour" => $dateJour,
                 "dateClot" => $dateClot,
-            "dateFin" => $dateFin,
-            "filtreForm" => $filtreForm->createView(),
+                "dateFin" => $dateFin,
+                "filtreForm" => $filtreForm->createView(),
                 "user" => $user,
                 "inscrit" => $inscrit,
                 "orga" => $organisatrice,
@@ -99,10 +101,10 @@ class SortiesController extends AbstractController
             "dateJour" => $dateJour,
             "filtreForm" => $filtreForm->createView(),
             "user" => $user,
-                "inscrit" => false,
-                "orga" => false,
-                "end" => false
-//|date('dd-MM-yyyy'),
+            "inscrit" => false,
+            "orga" => false,
+            "end" => false
+            //|date('dd-MM-yyyy'),
         ]);
     }
 
@@ -110,7 +112,7 @@ class SortiesController extends AbstractController
     /**
      * @Route("/sorties/add", name="sortie_add")
      */
-    public function add(EntityManagerInterface $em, Request $request)
+    public function add(EntityManagerInterface $em, EtatsRepository $etatsRepository,  UserInterface $user, Request $request, ParticipantsRepository $participantsRepository)
     {
         $sortie = new Sortie();
 
@@ -121,8 +123,9 @@ class SortiesController extends AbstractController
 
         /******************* récupération de l'orga ********************/
         //l'organisateur est l'utilisateur connecté
-        $orga =  $this->getUser();
-       $sortie->setOrganisateur($orga);
+//        $user = $this->getUser();
+        $orga = $participantsRepository->findOneBy(['username' => $user->getUsername()]);
+        $sortie->setOrganisateur($orga);
 
 
 
@@ -137,29 +140,28 @@ class SortiesController extends AbstractController
             //sauvegarde en BDD ssi formulaire est renseigné
 
             /************************* récupération de état *************/
-            $etatRepo = $this->getDoctrine()->getRepository(Etat::class);
+           // $etatRepo = $this->getDoctrine()->getRepository(Etat::class);
 
             if($sortieForm->getClickedButton() === $sortieForm->get('creer')) {//gestion selon le bouton utilisé
-            $etat = $etatRepo->findOneBy(['libelle' => 'En création']);
-            $flashMessage = 'nouvelle sortie créée';
-        }
-            elseif ($sortieForm->getClickedButton() === $sortieForm->get('publier')) {//gestion selon le bouton utilisé
-                $etat = $etatRepo->findOneBy(['libelle' => 'Ouvert']);
-                $flashMessage = 'nouvelle sortie publiée';
-            }
-
-            else{
-                $etat = $etatRepo->findOneBy(['libelle' => 'Fermé']);
-            }
+                 $etat = $etatsRepository->findOneBy(['libelle' => 'En création']);
+                 $flashMessage = 'nouvelle sortie créée';
+             }
+             elseif ($sortieForm->getClickedButton() === $sortieForm->get('publier')) {//gestion selon le bouton utilisé
+                 $etat = $etatsRepository->findOneBy(['libelle' => 'Ouvert']);
+                 $flashMessage = 'nouvelle sortie publiée';
+             }
+             else{
+                 $etat = $etatsRepository->findOneBy(['libelle' => 'Fermé']);
+             }
             $sortie->setEtat($etat);
-$lieu = $sortie->getLieu();
-
-$em->persist($lieu);
+            /*  $lieu = $sortie->getLieu();
+              $sortie->setLieu($lieu);
+              $em->persist($lieu);*/
 
             $em->persist($sortie);
             $em->flush();
 
-//renvoie dans la page de detail en affichant un message flash
+            //renvoie dans la page de detail en affichant un message flash
             $this->addFlash('success', $flashMessage);
 
 

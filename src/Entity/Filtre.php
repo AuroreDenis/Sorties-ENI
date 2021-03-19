@@ -18,7 +18,7 @@ class Filtre
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=15,nullable=true )
+     * @ORM\Column(type="object", nullable=true )
      */
     private $campus;
 
@@ -62,12 +62,12 @@ class Filtre
         return $this->id;
     }
 
-    public function getCampus(): ?string
+    public function getCampus()
     {
         return $this->campus;
     }
 
-    public function setCampus(?string $campus): self
+    public function setCampus( $campus): self
     {
         $this->campus = $campus;
 
