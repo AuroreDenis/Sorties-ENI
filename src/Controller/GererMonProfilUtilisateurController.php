@@ -21,6 +21,9 @@ class GererMonProfilUtilisateurController extends AbstractController
      */
     public function index(EntityManagerInterface $em, Request $request, UserPasswordEncoderInterface $encoder): Response
     {    $participant=$this->getUser();
+        $participant2=$this->getUser();
+
+        $participant->setCampus('');
         $registerForm = $this->createForm(ParticipantsType::class, $participant);
         $registerForm->handleRequest($request);
 
@@ -52,7 +55,7 @@ class GererMonProfilUtilisateurController extends AbstractController
 
         }
         return $this->render('user/register.html.twig', [
-            'controller_name' => 'UserController', "registerForm"=>$registerForm->createView()
+            'participant' => $participant2, "registerForm"=>$registerForm->createView()
         ]);
 
     }

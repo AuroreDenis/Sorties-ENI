@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}WELCOME TO MY BLOG{% endblock %}
+{% block title %}sortir-ENI{% endblock %}
 
 {% block header %}
     {% if is_granted('ROLE_ADMIN') %}
@@ -17,6 +17,8 @@
 {% block main %}
 
     {{ form_start(registerForm) }}
+    <p>resaissisez aussi votre campus</p>{{ participant.campus| join(",") }}
+
     {{ form_widget(registerForm) }}
     <button type="submit">Send!</button>
     {{ form_end(registerForm) }}

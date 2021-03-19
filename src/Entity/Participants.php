@@ -69,8 +69,8 @@ class Participants implements UserInterface
     private $actif=1;
 
     /**
-     * @var Campus $campus
-     * @ORM\ManyToOne(targetEntity="App\Entity\Campus")
+     *
+     * @ORM\Column (type="object")
      */
     private $campus;
 
@@ -112,19 +112,7 @@ class Participants implements UserInterface
     }
 
 
-    /**
-     * @return Campus
-     */
-    public function getCampus(): Campus
-    {
-        $campus = new Campus();
-        return $campus;
-    }
-    public function setCampus( $campus): self
-    {
-        $this->campus = $campus;
-        return $this;
-    }
+
 
     public function getId(): ?int
     {
@@ -147,6 +135,24 @@ class Participants implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCampus()
+    {
+        return $this->campus;
+    }
+
+    /**
+     * @param mixed $campus
+     */
+    public function setCampus($campus): void
+    {   $this->campus=null;
+        $this->campus = $campus;
+    }
+
+
 
 
 

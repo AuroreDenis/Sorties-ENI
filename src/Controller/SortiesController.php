@@ -53,7 +53,7 @@ class SortiesController extends AbstractController
         $dateJour=new \DateTime('now');
         $dateJour ->sub(new DateInterval('P31D'));
         $dateJb=new \DateTime('now');
-
+        $user=$this->getUser();
         if ($filtreForm->isSubmitted() && $filtreForm->isValid()) { // si le formulaire est envoyé
 
             $campusF=$filtre->getCampus();
@@ -269,4 +269,26 @@ $em->persist($lieu);
 
 
     }
+
+    /*****************************detail participants********************************************************/
+
+    /**
+     * @Route("/sorties/detailsParticipants/{id}", name="detail_participant", requirements={"id": "\d+"} )
+     *
+     */
+
+    public function detailsparticipants($id, EntityManagerInterface $em, Request $request)
+{
+    // récupérer la sortie à modifier
+    $participantRepo = $this->getDoctrine()->getRepository(Participants::class);
+    $participant = $participantRepo->find($id);
+
+    return $this->render('sortie/detailParticipant.html.twig', [
+        "participant" => $participant
+    ]);
+
+
+}
+
+
 }

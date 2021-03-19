@@ -17,6 +17,9 @@ class ParticipantsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        //$campusRepo = $this->getDoctrine()->getRepository(Campus::class);
+        //$allcampus = $campusRepo->findAll();
+
         $builder
             ->add('username')
             ->add('nom')
@@ -25,7 +28,9 @@ class ParticipantsType extends AbstractType
             ->add('telephone')
             ->add('mail')
             //->add('actif')
-            //->add('campus', EntityType::class, ['class'=>Campus::class, 'choice_label' => 'id',  'expanded' => true,])
+            ->add('campus', EntityType::class, ['class'=>Campus::class, 'choice_label' => 'nom_campus',
+                'multiple'=> false, 'expanded'=> false,
+                ])
             //->add('roles')
             ->add('password', RepeatedType::class,[
                 'type' => PasswordType::class,
@@ -44,5 +49,9 @@ class ParticipantsType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Participants::class,
         ]);
+    }
+
+    private function getDoctrine()
+    {
     }
 }

@@ -37,11 +37,13 @@
     <tr>
         <th>PSEUDO</th>
         <th>NOM</th>
+        <th>action</th>
     </tr>
     {% for participant in sortie.participants %}
     <tr>
         <td>{{ participant.username }}</td>
         <td>{{ participant.prenom }}</td>
+        <td><a href="{{ path('detail_participant',{'id':participant.id}) }}">détails</a></td>
     </tr>
         {% endfor %}
     </TABLE>
