@@ -21,11 +21,11 @@
                 <li><a href="{{ path('creer_un_admin') }}">CREER UN UTILISATEUR</a></li>
                 <li><a href="#">GERER UTILISATEUR</a></li>
                 <li><a href="{{ path('gerer_campus') }}">GERER LES CAMPUS</a></li>
-                <li><a href="#">GERER LES VILLES</a></li>
+                <li><a href="{{ path('gerer_ville') }}">GERER LES VILLES</a></li>
                 <li><a href="{{ path('logout') }}">SE DECONNECTER</a></li>
                 <hr>
             {% endif %}
-            {% if is_granted('ROLE_USER') %}
+            {% if is_granted('ROLE_USER') and user.actif==1 %}
                 <h3>menu user</h3>
                 <li><a href="{{ path('gerer_mon_profil_utilisateur') }}">mon profil utilisateur</a></li>
                 <li>ville</li>
@@ -49,6 +49,12 @@
 {% block main %}
     <h3>Date du jour: {{ dateJb|date("d/m/Y") }}</h3>
     <h3>Particpant: {{ user.prenom }}  {{ user.nom }}</h3>
+    {% if user.actif==1 %}
+    <p>ACTIF</p>
+    {% else %}
+    <p>Compte désactivé (veuillez contacter l'administrateur)</p>
+    {% endif %}
+    {% if user.actif==1 %}
     <h2> Filtrer les sorties </h2>
 
 {{ form_start(filtreForm) }}
@@ -59,7 +65,7 @@
 
     <h3> {{ campusFin }}</h3>
         <h2> Les sorties </h2>
-    <TABLE border="1">
+    <table border="1">
         <TR>
             <TH> Nom de la sortie </TH>
             <TH> Date  de la sortie</TH>
@@ -89,6 +95,7 @@
                 </TR>
             {% endif %}
         {% endfor %}
-    </TABLE>
+    </table>
+    {% endif %}
     {%  endblock %}
 

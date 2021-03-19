@@ -149,7 +149,7 @@ class Participants implements UserInterface
      */
     public function setCampus($campus): void
     {   $this->campus=null;
-        $this->campus = $campus;
+        $this->campus = $campus ;
     }
 
 

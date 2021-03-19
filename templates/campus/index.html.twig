@@ -31,6 +31,10 @@
     {% endfor %}
 
     </table>
-    {{ form(CampusForm) }}<button type="submit">Send!</button>
+    {{ form_start(CampusForm) }}
+    {{ form_widget(CampusForm) }}
+    <button type="submit">Valider</button>
+    {{ form_end(CampusForm) }}
+
 
 {% endblock %}

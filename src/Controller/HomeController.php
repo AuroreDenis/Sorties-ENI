@@ -16,7 +16,11 @@ class HomeController extends AbstractController
      */
     public function index(): Response
     {
-
+        $user=$this->getUser()->getActif();// si actif=0 deconnexion
+        if (!$user) {
+            $this->addFlash('error', "Compte désactivé (veuillez contacter l'administrateur)");
+            return $this->redirectToRoute('logout');
+        }
         return $this->redirectToRoute('sorties_list', [
 
         ]);

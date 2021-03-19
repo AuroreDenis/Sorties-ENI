@@ -21,6 +21,7 @@ class Campus
      * @ORM\Column(type="json")
      */
     private $nom_campus;
+
     public function getId(): ?int
     {
         return $this->id;

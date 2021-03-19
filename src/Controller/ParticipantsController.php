@@ -20,9 +20,16 @@ class ParticipantsController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+
         if ($this->getUser()) {
-            return $this->render('home/index.html.twig', []);
-            // return $this->redirectToRoute('home');
+            $user=$this->getUser()->getActif();// si actif=0 deconnexion
+            if (!$user) {
+                $this->addFlash('error', "Compte désactivé (veuillez contacter l'administrateur)");
+                return $this->redirectToRoute('logout');
+            } else {
+                return $this->render('home/index.html.twig', []);
+                // return $this->redirectToRoute('home');
+            }
          }
 
         // get the login error if there is one

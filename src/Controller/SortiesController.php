@@ -31,6 +31,13 @@ class SortiesController extends AbstractController
     public function list(Request $request)
     {
 
+        $user=$this->getUser()->getActif();// si actif=0 deconnexion
+        if (!$user) {
+            $this->addFlash('error', "Compte désactivé (veuillez contacter l'administrateur)");
+            return $this->redirectToRoute('logout');
+        }
+        $user=$this->getUser();// si actif=0 deconnexion
+
         //récupère toutes les sorties
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sorties = $sortieRepo->findAll();
@@ -41,8 +48,7 @@ class SortiesController extends AbstractController
         $campus = $campusRepo->findAll();
 
 
-        $user = $this->getUser();
-        dump($user);
+
         //$fmt = new IntlDateFormatter("fr_FR", IntlDateFormatter::FULL, IntlDateFormatter::NONE);
         //$fmt->format(new DateTime('now'));
 
