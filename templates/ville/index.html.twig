@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GESTION DES VILLES{% endblock %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block nav %}
+    {% if is_granted ('IS_AUTHENTICATED_REMEMBERED') %}
+
+        <li><a href="{{ path('home') }}">ACCUEIL</a></li>
+        <li><a href="#">MON PROFIL</a></li>
+        <li ><a href="{{ path('logout') }}">SE DECONNECTER</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    <table>
+        <tr>
+            <th>Ville</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for u in allville %}
+            <div>
+                {{ loop.index }}<input type="text"  value="{{ u.codePostal }}"><input type="text"  value="{{ u.nomVille }}"><a href=" {{ path('delete_ville',{'id':u.id}) }}"> supprimer</a>
+
+
+            </div>
+        {% endfor %}
+
+    </table>
+    {{ form_start(VilleForm) }}
+    {{ form_widget(VilleForm) }}
+    <button type="submit">Valider</button>
+    {{ form_end(VilleForm) }}
+
+
+{% endblock %}
