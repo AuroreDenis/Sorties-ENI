@@ -17,7 +17,7 @@
 {% block main %}
 
     {{ form_start(registerForm) }}
-    <p>resaissisez aussi votre campus</p>{{ participant.campus| join(",") }}
+    <p>n'oubliez pas aussi de choisir votre campus</p>{# {{ participant.campus| join(",") }} #}
 
     {{ form_widget(registerForm) }}
     <button type="submit">Send!</button>
