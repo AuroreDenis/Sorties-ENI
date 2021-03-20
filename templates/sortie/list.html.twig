@@ -50,22 +50,22 @@
     <h3>Date du jour: {{ dateJb|date("d/m/Y") }}</h3>
     <h3>Particpant: {{ user.prenom }}  {{ user.nom }}</h3>
     {% if user.actif==1 %}
-    <p>ACTIF</p>
+        <p>ACTIF</p>
     {% else %}
-    <p>Compte désactivé (veuillez contacter l'administrateur)</p>
+        <p>Compte désactivé (veuillez contacter l'administrateur)</p>
     {% endif %}
     {% if user.actif==1 %}
-    <h2> Filtrer les sorties </h2>
+        <h2> Filtrer les sorties </h2>
 
-{{ form_start(filtreForm) }}
-    {{ form_widget(filtreForm)}}
-    <input type="submit" value="Rechercher">
-    {{ form_end(filtreForm) }}
+        {{ form_start(filtreForm) }}
+        {{ form_widget(filtreForm)}}
+        <input type="submit" value="Rechercher">
+        {{ form_end(filtreForm) }}
 
 
-    <h3> {{ campusFin }}</h3>
+        <h3> {{ campusFin }}</h3>
         <h2> Les sorties </h2>
-    <table border="1">
+        <table border="1">
         <TR>
             <TH> Nom de la sortie </TH>
             <TH> Date  de la sortie</TH>
@@ -76,29 +76,27 @@
             <th> organisateur </th>
             <TH> Actions </TH>
         </TR>
-
         {%  for sortie in sorties %}
-         {# {%  if dateJour < sortie.dateCloture and dateClot>sortie.dateCloture %} #}
-                <TR>
-                    <TD> {{ dump(sortie) }} </TD>
-                    <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
-                    <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
-                    <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
-                    <td> {{ dump(sortie.etat) }}</td>
-                    <td> {% if user in sortie.participants %} X {%  endif %}</td>
-                    <td> {{ dump(sortie.organisateur) }}</td>
-                    <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
-                        {% if sortie.dateCloture>dateJb and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
-                        {% if sortie.dateCloture>dateJb and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
-
-                    </td>
-                </TR>
-           {# {% endif %}#}
+            {# {%  if dateJour < sortie.dateCloture and dateClot>sortie.dateCloture %} #}
+            <TR>
+                <TD> {{ sortie.nom }} </TD>
+                <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
+                <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
+                <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
+                <td> {{ sortie.etat.libelle }}</td>
+                <td> {% if user in sortie.participants %} X {%  endif %}</td>
+                <td> {{ sortie.organisateur.username }}</td>
+                <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
+                    {% if sortie.dateCloture>dateJb and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
+                    {% if sortie.dateCloture>dateJb and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
+                </td>
+            </TR>
+            {# {% endif %}#}
         {% endfor %}
-        {% endif %}
+    {% endif %}
     </TABLE>
 
     <button> <a href="{{ path('sortie_add') }}">ajouter une sortie</a> </button>
     </table>
-    {%  endblock %}
+{%  endblock %}
 

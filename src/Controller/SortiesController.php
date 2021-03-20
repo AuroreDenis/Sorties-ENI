@@ -78,6 +78,7 @@ class SortiesController extends AbstractController
             $organisatrice = $filtre->getOrga();
             $end = $filtre->getClose();
 
+
             return $this->render('sortie/list.html.twig', [
                 "dateJb" => $dateJb,
                 "sorties" => $sorties,

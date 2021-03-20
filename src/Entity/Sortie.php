@@ -189,17 +189,7 @@ class Sortie
         return $this;
     }
 
-    public function getEtatSortie(): ?int
-    {
-        return $this->etat_sortie;
-    }
 
-    public function setEtatSortie(?int $etat_sortie): self
-    {
-        $this->etat_sortie = $etat_sortie;
-
-        return $this;
-    }
 
     public function getUrlPhoto(): ?string
     {
@@ -218,22 +208,19 @@ class Sortie
      */
     public function getEtat(): Etat
     {
-        $etat = new Etat();
-        return $etat;
+        return $this->etat;
     }
     /**
      * @param Etat $etat
      */
     public function setEtat(Etat $etat): void
     {
-
         $this->etat = $etat;
     }
 
     public function getOrganisateur(): Participants
     {
-        $orga = new Participants();
-        return $orga;
+        return $this->organisateur;
     }
 
 
