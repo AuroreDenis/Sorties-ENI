@@ -44,18 +44,9 @@ class SortiesController extends AbstractController
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sorties = $sortieRepo->findAll();
 
-
-
         //récupère tous les campus
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
         $campus = $campusRepo->findAll();
-
-
-
-        //$fmt = new IntlDateFormatter("fr_FR", IntlDateFormatter::FULL, IntlDateFormatter::NONE);
-        //$fmt->format(new DateTime('now'));
-
-        // $userDetails = $userRepository->findBy(['name' => $user]);
 
         // formulaire - filtres
         $filtre = new Filtre();
@@ -65,48 +56,67 @@ class SortiesController extends AbstractController
         $filtreForm->handleRequest($request);
 
         // initialiser les values des dates
-        $dateClot=new \DateTime('now');
-        $dateClot ->add(new DateInterval('P180D'));
-        $dateJour=new \DateTime('now');
-        $dateJour ->sub(new DateInterval('P31D'));
-        $dateJb=new \DateTime('now');
-        //$user=$this->getUser();
+        $lastDate=new \DateTime('now');
+        $lastDate ->add(new DateInterval('P180D'));
+        $firstDate=new \DateTime('now');
+        $firstDate ->sub(new DateInterval('P31D'));
+        $Today=new \DateTime('now');
+
+
         if ($filtreForm->isSubmitted() && $filtreForm->isValid()) { // si le formulaire est envoyé
 
-            $campusF=$filtre->getCampus();
-            $dateFin = $filtre->getDateFin();
-            $inscrit = $filtre->getInscrit();
+
+            // on récupère les valeurs du filtre
+            $campusF=$filtre->getCampus()->getId();  //campus^
+
+            // filtre mot
+            $mot = $filtre->getSearch(); //mot à chercher
+            if(empty($mot)){// si null et bien on cherche rien ^
+                $mot = '';
+            }
+
+            //filtre date
+            $firstDate = $filtre->getDateDebut(); // date min
+            $lastDate = $filtre->getDateFin(); // date max
+
+            //filtre check box
+            $inscrit = $filtre->getInscrit(); // booléen -> affiche les sorties qd on inscrit / pas inscrit
+            if ( empty($inscrit)) {
+             $Ok = false;
+            }
             $organisatrice = $filtre->getOrga();
-            $end = $filtre->getClose();
+            if ( empty($organisatrice)){
+                $Ok  = false;
+            }//booléen -> afffiche les sorties dont on est l'orga
+            $end = $filtre->getClose(); // booléen -> affiche sorties fermées
 
 
             return $this->render('sortie/list.html.twig', [
-                "dateJb" => $dateJb,
+                "today" => $Today,
                 "sorties" => $sorties,
-                "campusFin" => $campusF,
-                "dateJour" => $dateJour,
-                "dateClot" => $dateClot,
-                "dateFin" => $dateFin,
+                "firstDate" => $firstDate,
+                "lastDate" => $lastDate,
                 "filtreForm" => $filtreForm->createView(),
                 "user" => $user,
                 "inscrit" => $inscrit,
                 "orga" => $organisatrice,
-                "end" => $end
-
+                "end" => $end,
+                "search"=> $mot,
+                "Ok" => $Ok
             ]);
         }
         return $this->render('sortie/list.html.twig', [
-            "dateJb" => $dateJb,
+            "today" => $Today,
             "sorties" => $sorties,
-            "campusFin" => 'bien',
-            "dateClot" => $dateClot,
-            "dateJour" => $dateJour,
+            "lastDate" => $lastDate,
+            "firstDate" => $firstDate,
             "filtreForm" => $filtreForm->createView(),
             "user" => $user,
-            "inscrit" => false,
-            "orga" => false,
-            "end" => false
-            //|date('dd-MM-yyyy'),
+            "inscrit" => true,
+            "orga" => true,
+            "end" => false,
+            "search" => '',
+            "Ok" => false
         ]);
     }
 
