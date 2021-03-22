@@ -30,86 +30,41 @@
 
 
 {% block main %}
-    <h3>Date du jour: {{ today|date("d/m/Y") }}</h3>
-    <h3>Particpant: {{ user.prenom }}  {{ user.nom }}</h3>
+<h3>Date du jour: {{ today|date("d/m/Y") }}</h3>
+<h3>Particpant: {{ user.prenom }}  {{ user.nom }}</h3>
+{% if user.actif==1 %}
+    <p>ACTIF</p>
+{% else %}
+    <p>Compte désactivé (veuillez contacter l'administrateur)</p>
+{% endif %}
     {% if user.actif==1 %}
-        <p>ACTIF</p>
-    {% else %}
-        <p>Compte désactivé (veuillez contacter l'administrateur)</p>
-    {% endif %}
-    {% if user.actif==1 %}
-        <h2> Filtrer les sorties </h2>
+    <h2> Filtrer les sorties </h2>
 
-        {{ form_start(filtreForm) }}
+{{ form_start(filtreForm) }}
         {{ form_widget(filtreForm)}}
-        <input type="submit" value="Rechercher">
-        {{ form_end(filtreForm) }}
+<input type="submit" value="Rechercher">
+{{ form_end(filtreForm) }}
 
-        <h2> Les sorties </h2>
-        <table border="1">
-        <TR>
-            <TH> Nom de la sortie </TH>
-            <TH> Date  de la sortie</TH>
-            <TH> Clôture </TH>
-            <TH> inscrits/places </TH>
-            <TH> Etat </TH>
-            <th> inscrit </th>
-            <th> organisateur </th>
-            <TH> Actions </TH>
-        </TR>
+    <h2> Les sorties </h2>
+<table border="1">
+    <TR>
+        <TH> Nom de la sortie </TH>
+        <TH> Date  de la sortie</TH>
+        <TH> Clôture </TH>
+        <TH> inscrits/places </TH>
+        <TH> Etat </TH>
+        <th> inscrit </th>
+        <th> organisateur </th>
+        <TH> Actions </TH>
+    </TR>
 
-        {# On ajoute les filtres ! #}
-        {%  for sortie in sorties %}
-            {% if sortie.dateDebut<=lastDate and sortie.dateDebut>=firstDate %} {# filtre par date #}
-                {% if search in sortie.nom %} {# le nom contient bien ce mot #}
-                    {%  if not Ok %}
-                        <TR>
-                            <TD> {{ sortie.nom }} </TD>
-                            <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
-                            <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
-                            <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
-                            <td> {{ sortie.etat.libelle }}</td>
-                            <td> {% if user in sortie.participants %} X {%  endif %}</td>
-                            <td> {{ sortie.organisateur.username }}</td>
+    {# On ajoute les filtres ! #}
+    {%  for sortie in sorties %}
+    {% if sortie.dateDebut<=lastDate and sortie.dateDebut>=firstDate %} {# filtre par date #}
+        {% if search in sortie.nom %} {# le nom contient bien ce mot #}
 
-                            {% if sortie.etat.libelle!="Annulée" %}
-                                <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
-                                    {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
-                                    {% if sortie.dateCloture>today and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
-                                    {% if sortie.organisateur.username==user.username and sortie.dateDebut>today %}<a href=" {{ path('annuler-sortie',{'id':sortie.id}) }}">Annuler la sortie</a>{% endif %}
-
-
-                                </td>
-                            {% else %}
-                                <td>
-                                    MOTIF: {{ sortie.descriptionInfos }}
-                                </td>
-                            {% endif %}
-                        </TR>
-                    {% elseif inscrit and user in sortie.participants %}
-                        <TR>
-                            <TD> {{ sortie.nom }} </TD>
-                            <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
-                            <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
-                            <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
-                            <td> {{ sortie.etat.libelle }}</td>
-                            <td> {% if user in sortie.participants %} X {%  endif %}</td>
-                            <td> {{ sortie.organisateur.username }}</td>   {% if sortie.etat.libelle!="Annulée" %}
-                                <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
-                                    {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
-                                    {% if sortie.dateCloture>today and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
-                                    {% if sortie.organisateur.username==user.username and sortie.dateDebut>today %}<a href=" {{ path('annuler-sortie',{'id':sortie.id}) }}">Annuler la sortie</a>{% endif %}
-
-
-                                </td>
-                            {% else %}
-                                <td>
-                                    MOTIF: {{ sortie.descriptionInfos }}
-                                </td>
-                            {% endif %}
-                        </TR>
-                    {%  elseif not inscrit and user not in sortie.participants %} {# on affiche si inscrit  ou pas inscrit #}
-                        <TR>
+            {%  if not Ok %}
+                    <TR>
                         <TD> {{ sortie.nom }} </TD>
                         <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
                         <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
@@ -118,40 +73,141 @@
                         <td> {% if user in sortie.participants %} X {%  endif %}</td>
                         <td> {{ sortie.organisateur.username }}</td>
 
-                    {% elseif (orga and (user.username == sortie.organisateur.username)) %}
-                        <TR>
-                            <TD> {{ sortie.nom }} </TD>
-                            <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
-                            <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
-                            <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
-                            <td> {{ sortie.etat.libelle }}</td>
-                            <td> {% if user in sortie.participants %} X {%  endif %}</td>
-                            <td> {{ sortie.organisateur.username }}</td>
-                            {% if sortie.etat.libelle!="Annulée" %}
-                                <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
-                                    {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
-                                    {% if sortie.dateCloture>today and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
-                                    {% if sortie.organisateur.username==user.username and sortie.dateDebut>today %}<a href=" {{ path('annuler-sortie',{'id':sortie.id}) }}">Annuler la sortie</a>{% endif %}
+                        {% if sortie.etat.libelle!="Annulée" %}
+                            <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
+                                {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
+                                {% if sortie.dateCloture>today and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
+                                {% if sortie.organisateur.username==user.username and sortie.dateDebut>today %}<a href=" {{ path('annuler-sortie',{'id':sortie.id}) }}">Annuler la sortie</a>{% endif %}
+                            </td>
+                        {% else %}
+                            <td>
+                                MOTIF: {{ sortie.descriptionInfos }}
+                            </td>
+                        {% endif %}
+                    </TR>
+                {# si inscrit #}
+            {% elseif inscrit and user in sortie.participants %}
+                {% if (orga and (user.username == sortie.organisateur.username)) %} {#  et orga #}
+                    <TR>
+                        <TD> {{ sortie.nom }} </TD>
+                        <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
+                        <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
+                        <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
+                        <td> {{ sortie.etat.libelle }}</td>
+                        <td> {% if user in sortie.participants %} X {%  endif %}</td>
+                        <td> {{ sortie.organisateur.username }}</td>
+                        {% if sortie.etat.libelle!="Annulée" %}
+                            <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
+                                {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
+                                {% if sortie.dateCloture>today and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
+                                {% if sortie.organisateur.username==user.username and sortie.dateDebut>today %}<a href=" {{ path('annuler-sortie',{'id':sortie.id}) }}">Annuler la sortie</a>{% endif %}
+
+                            </td>
+                        {% else %}
+                            <td>
+                                MOTIF: {{ sortie.descriptionInfos }}
+                            </td>
+                        {% endif %}
+                    </TR>
+                {% else %}{#  et pas orga #}
+                    <TR>
+                        <TD> {{ sortie.nom }} </TD>
+                        <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
+                        <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
+                        <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
+                        <td> {{ sortie.etat.libelle }}</td>
+                        <td> {% if user in sortie.participants %} X {%  endif %}</td>
+                        <td> {{ sortie.organisateur.username }}</td>
+                        {% if sortie.etat.libelle!="Annulée" %}
+                            <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
+                                {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
+                                {% if sortie.dateCloture>today and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
+                                {% if sortie.organisateur.username==user.username and sortie.dateDebut>today %}<a href=" {{ path('annuler-sortie',{'id':sortie.id}) }}">Annuler la sortie</a>{% endif %}
+                            </td>
+                        {% else %}
+                            <td>
+                                MOTIF: {{ sortie.descriptionInfos }}
+                            </td>
+                        {% endif %}
+                    </TR>
+
+                {% endif %}
+            {%  elseif pasInscrit and user not in sortie.participants %} {# on affiche si pas inscrit #}
+                {% if (orga and (user.username == sortie.organisateur.username)) %}{#  et orga #}
+                    <TR>
+                        <TD> {{ sortie.nom }} </TD>
+                        <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
+                        <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
+                        <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
+                        <td> {{ sortie.etat.libelle }}</td>
+                        <td> {% if user in sortie.participants %} X {%  endif %}</td>
+                        <td> {{ sortie.organisateur.username }}</td>
+                        {% if sortie.etat.libelle!="Annulée" %}
+                            <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
+                                {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
+                                {% if sortie.dateCloture>today and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
+                                {% if sortie.organisateur.username==user.username and sortie.dateDebut>today %}<a href=" {{ path('annuler-sortie',{'id':sortie.id}) }}">Annuler la sortie</a>{% endif %}
 
 
-                                </td>
-                            {% else %}
-                                <td>
-                                    MOTIF: {{ sortie.descriptionInfos }}
-                                </td>
-                            {% endif %}
-                        </TR>
+                            </td>
+                        {% else %}
+                            <td>
+                                MOTIF: {{ sortie.descriptionInfos }}
+                            </td>
+                        {% endif %}
+                    </TR>
+                {% else %}{#  et pas orga #}
+                    <TR>
+                        <TD> {{ sortie.nom }} </TD>
+                        <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
+                        <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
+                        <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
+                        <td> {{ sortie.etat.libelle }}</td>
+                        <td> {% if user in sortie.participants %} X {%  endif %}</td>
+                        <td> {{ sortie.organisateur.username }}</td>
+                        {% if sortie.etat.libelle!="Annulée" %}
+                            <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
+                                {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
+                                {% if sortie.dateCloture>today and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
+                                {% if sortie.organisateur.username==user.username and sortie.dateDebut>today %}<a href=" {{ path('annuler-sortie',{'id':sortie.id}) }}">Annuler la sortie</a>{% endif %}
+                            </td>
+                        {% else %}
+                            <td>
+                                MOTIF: {{ sortie.descriptionInfos }}
+                            </td>
+                        {% endif %}
+                    </TR>
+                {% endif %}
+            {% elseif (orga and (user.username == sortie.organisateur.username)) %}{#  orga #}
+                <TR>
+                    <TD> {{ sortie.nom }} </TD>
+                    <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
+                    <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
+                    <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
+                    <td> {{ sortie.etat.libelle }}</td>
+                    <td> {% if user in sortie.participants %} X {%  endif %}</td>
+                    <td> {{ sortie.organisateur.username }}</td>
+                    {% if sortie.etat.libelle!="Annulée" %}
+                        <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
+                            {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
+                            {% if sortie.dateCloture>today and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
+                            {% if sortie.organisateur.username==user.username and sortie.dateDebut>today %}<a href=" {{ path('annuler-sortie',{'id':sortie.id}) }}">Annuler la sortie</a>{% endif %}
+                        </td>
+                    {% else %}
+                        <td>
+                            MOTIF: {{ sortie.descriptionInfos }}
+                        </td>
                     {% endif %}
-                    {#   {%  endif %}
-                {%  endif %}#}
-                {%  endif %}
+                </TR>
             {%  endif %}
+        {%  endif %}
+    {%  endif %}
 
-        {% endfor %}
+    {% endfor %}
     {% endif %}
-    </TABLE>
+</TABLE>
 
-    <button> <a href="{{ path('sortie_add') }}">ajouter une sortie</a> </button>
-    </table>
+<button> <a href="{{ path('sortie_add') }}">ajouter une sortie</a> </button>
+</table>
 {%  endblock %}
 
