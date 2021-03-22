@@ -5,18 +5,9 @@
 
 
 
-
-
-
 {% block nav %}
     <nav>
-        <ul>
-
-
-
-
-
-            {% if is_granted('ROLE_ADMIN') %}
+        <ul> {% if is_granted('ROLE_ADMIN') %}
                 <h3>menu admin</h3>
                 <li><a href="{{ path('creer_un_admin') }}">CREER UN UTILISATEUR</a></li>
                 <li><a href="#">GERER UTILISATEUR</a></li>
@@ -33,21 +24,13 @@
                 <li><a href="{{ path('sorties_list') }}">accueil</a></li>
                 <li ><a href="{{ path('logout') }}">SE DECONNECTER</a></li>
             {% endif %}
-
-
-
-
-
-
         </ul>
     </nav>
-
 {% endblock %}
 
 
-
 {% block main %}
-    <h3>Date du jour: {{ dateJb|date("d/m/Y") }}</h3>
+    <h3>Date du jour: {{ today|date("d/m/Y") }}</h3>
     <h3>Particpant: {{ user.prenom }}  {{ user.nom }}</h3>
     {% if user.actif==1 %}
         <p>ACTIF</p>
@@ -62,8 +45,6 @@
         <input type="submit" value="Rechercher">
         {{ form_end(filtreForm) }}
 
-
-        <h3> {{ campusFin }}</h3>
         <h2> Les sorties </h2>
         <table border="1">
         <TR>
@@ -76,22 +57,33 @@
             <th> organisateur </th>
             <TH> Actions </TH>
         </TR>
+
+
+        {# On ajoute les filtres ! #}
         {%  for sortie in sorties %}
-            {# {%  if dateJour < sortie.dateCloture and dateClot>sortie.dateCloture %} #}
-            <TR>
-                <TD> {{ sortie.nom }} </TD>
-                <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
-                <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
-                <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
-                <td> {{ sortie.etat.libelle }}</td>
-                <td> {% if user in sortie.participants %} X {%  endif %}</td>
-                <td> {{ sortie.organisateur.username }}</td>
-                <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
-                    {% if sortie.dateCloture>dateJb and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
-                    {% if sortie.dateCloture>dateJb and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
-                </td>
-            </TR>
-            {# {% endif %}#}
+
+            {% if sortie.dateDebut<lastDate and sortie.dateDebut>firstDate %} {# filtre par date #}
+                {% if search in sortie.nom %} {# le nom contient bien ce mot #}
+                    {# {% if inscrit and user in sortie.participants
+                    or not inscrit and user not in sortie.participants %}  on affiche si inscrit #}
+                           {% if not Ok or (orga and user == sortie.organisateur) %}#}
+                                <TR>
+                                    <TD> {{ sortie.nom }} </TD>
+                                    <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
+                                    <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
+                                    <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
+                                    <td> {{ sortie.etat.libelle }}</td>
+                                    <td> {% if user in sortie.participants %} X {%  endif %}</td>
+                                    <td> {{ sortie.organisateur.username }}</td>
+                                    <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
+                                        {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
+                                        {% if sortie.dateCloture>today and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
+                                    </td>
+                                </TR>
+{#  {% endif %}#}
+                    {%  endif %}
+                {%  endif %}
+            {%  endif %}
         {% endfor %}
     {% endif %}
     </TABLE>
