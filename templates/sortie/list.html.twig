@@ -86,10 +86,18 @@
                 <td> {{ sortie.etat.libelle }}</td>
                 <td> {% if user in sortie.participants %} X {%  endif %}</td>
                 <td> {{ sortie.organisateur.username }}</td>
+                {% if sortie.etat.libelle!="Annulée" %}
                 <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
                     {% if sortie.dateCloture>dateJb and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
                     {% if sortie.dateCloture>dateJb and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
+                    {% if sortie.organisateur.username==user.username and sortie.dateDebut>dateJb %}<a href=" {{ path('annuler-sortie',{'id':sortie.id}) }}">Annuler la sortie</a>{% endif %}
+
                 </td>
+                {% else %}
+                    <td>
+                        MOTIF: {{ sortie.descriptionInfos }}
+                    </td>
+                    {% endif %}
             </TR>
             {# {% endif %}#}
         {% endfor %}

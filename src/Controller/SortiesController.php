@@ -10,6 +10,7 @@ use App\Entity\Participants;
 use App\Entity\Sortie;
 
 use App\Entity\Ville;
+use App\Form\AnnulerSortieType;
 use App\Form\FiltreType;
 use App\Form\SortiesType;
 use App\Repository\EtatsRepository;
@@ -306,6 +307,43 @@ class SortiesController extends AbstractController
 
 
 }
+/*****************************************Annuler une sortie*************************************************/
+    /**
+     * @Route("/sorties/annulerUneSortie/{id}", name="annuler-sortie", requirements={"id": "\d+"} )
+     *
+     */
+    public function annulerSortie($id, EntityManagerInterface $em, Request $request): Response
+    {
+        // récupérer la sortie à modifier
+        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $sortieRepo->find($id);
+        $etatsRepository = $this->getDoctrine()->getRepository(Etat::class);
+        $etat = $etatsRepository->findOneBy(['libelle' => 'Annulée']);
+        $sortie->setEtat($etat);
+        $sortie->setDescriptionInfos("");
+        //enregister en bdd
+        //$em->persist($sortie);
+        //$em->persist($user);
+        //$em->flush();
+        // on récupère l'user
+        $user=$this->getUser();
+        //creation du formulaire
+        $registerForm = $this->createForm(AnnulerSortieType::class, $sortie);
+        $registerForm->handleRequest($request);
+        //si form ok
+        if ($registerForm->isSubmitted() and $registerForm->isValid()) {
+            //
+            $em->persist($sortie);
+            $em->flush();
+            return $this->redirectToRoute('sorties_list', [
+
+            ]);
+
+        }
+        return $this->render('sortie/annulerSortie.html.twig', [
+            "sortie" => $sortie,"user" =>$user,"registerForm"=>$registerForm->createView()
+        ]);
 
 
+    }
 }
