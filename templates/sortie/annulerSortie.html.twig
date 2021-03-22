@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title%} {{ parent() }} | Liste des sorties {%  endblock %}
+
+{% block main %}
+        <h2> Détails de la sortie </h2>
+
+<div>
+    <h4>Nom de la sortie: {{ sortie.nom }}</h4><h4>Campus: </h4>
+
+</div>
+    <div>
+        <h4>Date et heure de la sortie: {{ sortie.dateDebut|date('d-m-Y H:i:s') }}</h4>
+        <h4>Lieu:</h4>
+
+    </div>
+    <div>
+        <h4>Date limite d'inscription: {{ sortie.dateCloture|date('d-m-Y H:i:s') }}</h4>
+        <h4>rue: </h4>
+    </div>
+    <div>
+        <h4>Nombre de places: {{ sortie.nbInscriptionsMax - sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</h4>
+        <h4>Code postal:  </h4>
+    </div>
+    <div>
+        <h4>Durée: {{ sortie.duree }}/minutes</h4>
+        <h4>Lattitude :  -----</h4>
+    </div>
+    <div>
+        <h4>Description infos: {{ sortie.descriptionInfos }}</h4>
+        <h4>Longitude:  -----</h4>
+    </div>
+    {{ form_start(registerForm) }}
+    <div>
+        ETAT SORTIE:{{ sortie.etat | join(",") }}<br>
+        NUMERO DE SORTIE:{{ form_widget(registerForm.id) }}<br>
+    MOTIF ANNULATION:{{ form_widget(registerForm.description_infos) }}
+    </div>
+    <button type="submit">Valider l'annulation</button>
+    {{ form_end(registerForm) }}
+    <a href=javascript:history.go(-1)>Cancel</a>
+
+
+    {% endblock %}
