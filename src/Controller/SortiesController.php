@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Filtre;
-use App\Entity\Lieu;
 use App\Entity\Participants;
 use App\Entity\Sortie;
 
@@ -62,9 +61,9 @@ class SortiesController extends AbstractController
         $firstDate ->sub(new DateInterval('P31D'));
         $Today=new \DateTime('now');
 
+        $Ok  = false;
 
         if ($filtreForm->isSubmitted() && $filtreForm->isValid()) { // si le formulaire est envoyé
-
 
             // on récupère les valeurs du filtre
             $campusF=$filtre->getCampus()->getId();  //campus^
@@ -81,14 +80,18 @@ class SortiesController extends AbstractController
 
             //filtre check box
             $inscrit = $filtre->getInscrit(); // booléen -> affiche les sorties qd on inscrit / pas inscrit
-            if ( empty($inscrit)) {
-             $Ok = false;
+            $organisatrice = $filtre->getOrga();//booléen -> afffiche les sorties dont on est l'orga
+            $pasInscrit = $filtre->getPasInscrit();
+
+            // sorties passées
+            $end = $filtre->getClose(); // booléen -> affiche sorties passées
+
+            if ( empty($inscrit) and empty($organisatrice) and empty($pasInscrit) and empty($end)) {// Si rien n'est coché renvoie tout
+                $Ok = false;
             }
-            $organisatrice = $filtre->getOrga();
-            if ( empty($organisatrice)){
-                $Ok  = false;
-            }//booléen -> afffiche les sorties dont on est l'orga
-            $end = $filtre->getClose(); // booléen -> affiche sorties fermées
+            else{
+                $Ok = true;
+            }
 
 
             return $this->render('sortie/list.html.twig', [
@@ -102,7 +105,8 @@ class SortiesController extends AbstractController
                 "orga" => $organisatrice,
                 "end" => $end,
                 "search"=> $mot,
-                "Ok" => $Ok
+                "Ok" => $Ok,
+                "pasInscrit" => $pasInscrit
             ]);
         }
         return $this->render('sortie/list.html.twig', [
@@ -112,11 +116,12 @@ class SortiesController extends AbstractController
             "firstDate" => $firstDate,
             "filtreForm" => $filtreForm->createView(),
             "user" => $user,
-            "inscrit" => true,
-            "orga" => true,
+            "inscrit" => false,
+            "orga" => false,
             "end" => false,
             "search" => '',
-            "Ok" => false
+            "Ok" => false,
+            "pasInscrit" => false
         ]);
     }
 
@@ -138,8 +143,6 @@ class SortiesController extends AbstractController
 //        $user = $this->getUser();
         $orga = $participantsRepository->findOneBy(['username' => $user->getUsername()]);
         $sortie->setOrganisateur($orga);
-
-
 
         $sortieForm = $this->createForm(SortiesType::class, $sortie);
 
