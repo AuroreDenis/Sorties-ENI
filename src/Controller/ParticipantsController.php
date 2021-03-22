@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Campus;
+use App\Entity\Etat;
 use App\Entity\Participants;
+use App\Entity\Sortie;
 use App\Form\ParticipantsType;
+use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,8 +21,30 @@ class ParticipantsController extends AbstractController
     /**
      * @Route("/", name="app_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, EntityManagerInterface $em): Response
     {
+        //***********traitement en archive***********************
+        $firstDate=new \DateTime('now');
+        $firstDate ->sub(new DateInterval('P31D')); //date du jour -1mois
+        //récupère toutes les sorties
+        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sorties = $sortieRepo->findAll();
+        $etatsArchiveRepository = $this->getDoctrine()->getRepository(Etat::class);
+        $etatArchive= $etatsArchiveRepository->findOneBy(['libelle' => 'Archivée']);
+        foreach ($sorties as $valeur) {
+            if ($valeur->getDateDebut()<$firstDate){
+                $sortieRepo2 = $this->getDoctrine()->getRepository(Sortie::class);
+                $id=$valeur->getId();
+                $sortie2 = $sortieRepo2->find($id);
+                $sortie2->setEtat($etatArchive);
+                $em->persist($sortie2);
+                $em->flush();
+
+
+            }
+
+        }
+        //********************************************************************************************
         if ($this->getUser()) {
             $user=$this->getUser()->getActif();// si actif=0 deconnexion
             if (!$user) {

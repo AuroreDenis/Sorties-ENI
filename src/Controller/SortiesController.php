@@ -30,7 +30,7 @@ class SortiesController extends AbstractController
     /**
      * @Route("/sorties", name="sorties_list")
      */
-    public function list(Request $request)
+    public function list(Request $request, EntityManagerInterface $em)
     {
 
         $user=$this->getUser()->getActif();// si actif=0 deconnexion
@@ -61,8 +61,7 @@ class SortiesController extends AbstractController
         $firstDate=new \DateTime('now');
         $firstDate ->sub(new DateInterval('P31D'));
         $Today=new \DateTime('now');
-
-
+        //******************************
         if ($filtreForm->isSubmitted() && $filtreForm->isValid()) { // si le formulaire est envoyé
 
 
