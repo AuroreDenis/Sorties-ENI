@@ -32,7 +32,7 @@
 
 {% block main %}
 <h3>Date du jour: {{ today|date("d/m/Y") }}</h3>
-<h3>Particpant: {{ user.prenom }}  {{ user.nom }}</h3>
+<h3>Participant: {{ user.prenom }}  {{ user.nom }}</h3>
 {% if user.actif==1 %}
     <p>ACTIF</p>
 {% else %}
@@ -56,11 +56,13 @@
         <TH> Etat </TH>
         <th> inscrit </th>
         <th> organisateur </th>
+        <th> campus </th>
         <TH> Actions </TH>
     </TR>
 
     {# On ajoute les filtres ! #}
     {%  for sortie in sorties %}
+{% if sortie.organisateur.campus.nomCampus == campus %}
     {% if sortie.dateDebut<=lastDate and sortie.dateDebut>=firstDate %} {# filtre par date #}
         {% if search in sortie.nom %} {# le nom contient bien ce mot #}
 
@@ -73,6 +75,7 @@
                         <td> {{ sortie.etat.libelle }}</td>
                         <td> {% if user in sortie.participants %} X {%  endif %}</td>
                         <td> {{ sortie.organisateur.username }}</td>
+                        <td> {{ sortie.organisateur.campus.nomCampus }}</td>
 
                         {% if sortie.etat.libelle!="Annulée" %}
                             <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
@@ -97,6 +100,7 @@
                         <td> {{ sortie.etat.libelle }}</td>
                         <td> {% if user in sortie.participants %} X {%  endif %}</td>
                         <td> {{ sortie.organisateur.username }}</td>
+                        <td> {{ sortie.organisateur.campus.nomCampus }}</td>
                         {% if sortie.etat.libelle!="Annulée" %}
                             <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
                                 {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
@@ -119,6 +123,7 @@
                         <td> {{ sortie.etat.libelle }}</td>
                         <td> {% if user in sortie.participants %} X {%  endif %}</td>
                         <td> {{ sortie.organisateur.username }}</td>
+                        <td> {{ sortie.organisateur.campus.nomCampus }}</td>
                         {% if sortie.etat.libelle!="Annulée" %}
                             <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
                                 {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
@@ -143,6 +148,7 @@
                         <td> {{ sortie.etat.libelle }}</td>
                         <td> {% if user in sortie.participants %} X {%  endif %}</td>
                         <td> {{ sortie.organisateur.username }}</td>
+                        <td> {{ sortie.organisateur.campus.nomCampus }}</td>
                         {% if sortie.etat.libelle!="Annulée" %}
                             <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
                                 {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
@@ -166,6 +172,7 @@
                         <td> {{ sortie.etat.libelle }}</td>
                         <td> {% if user in sortie.participants %} X {%  endif %}</td>
                         <td> {{ sortie.organisateur.username }}</td>
+                        <td> {{ sortie.organisateur.campus.nomCampus }}</td>
                         {% if sortie.etat.libelle!="Annulée" %}
                             <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
                                 {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
@@ -188,6 +195,7 @@
                     <td> {{ sortie.etat.libelle }}</td>
                     <td> {% if user in sortie.participants %} X {%  endif %}</td>
                     <td> {{ sortie.organisateur.username }}</td>
+                    <td> {{ sortie.organisateur.campus.nomCampus }}</td>
                     {% if sortie.etat.libelle!="Annulée" %}
                         <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
                             {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
@@ -203,6 +211,7 @@
             {%  endif %}
         {%  endif %}
     {%  endif %}
+        {% endif %}
     {% endfor %}
     {% endif %}
 </TABLE>

@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;

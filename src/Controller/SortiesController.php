@@ -67,7 +67,7 @@ class SortiesController extends AbstractController
 
 
             // on récupère les valeurs du filtre
-            $campusF=$filtre->getCampus()->getId();  //campus^
+            $campusF=$filtre->getCampus()->getNomCampus();  //campus^
 
             // filtre mot
             $mot = $filtre->getSearch(); //mot à chercher
@@ -104,7 +104,8 @@ class SortiesController extends AbstractController
                 "end" => $end,
                 "search"=> $mot,
                 "Ok" => $Ok,
-                "pasInscrit"=> $pasInscrit
+                "pasInscrit"=> $pasInscrit,
+                "campus"=>$campusF
             ]);
         }
         return $this->render('sortie/list.html.twig', [
@@ -119,7 +120,8 @@ class SortiesController extends AbstractController
             "end" => false,
             "search" => '',
             "Ok" => false,
-            "pasInscrit" => false
+            "pasInscrit" => false,
+            "campus"=> 'Rennes'
         ]);
     }
 
@@ -141,7 +143,6 @@ class SortiesController extends AbstractController
 //        $user = $this->getUser();
         $orga = $participantsRepository->findOneBy(['username' => $user->getUsername()]);
         $sortie->setOrganisateur($orga);
-
 
 
         $sortieForm = $this->createForm(SortiesType::class, $sortie);

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\VillesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=VillesRepository::class)
@@ -15,11 +16,14 @@ class Ville
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"liste_ville"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=30)
+     *
+     * @Groups({"liste_ville"})
      */
     private $nom_ville;
 

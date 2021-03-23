@@ -65,6 +65,7 @@ class Sortie
     private $organisateur;
 
 
+
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Participants", mappedBy="sorties")
      */
@@ -127,6 +128,22 @@ class Sortie
         $this->nom = $nom;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCampus()
+    {
+        return $this->campus;
+    }
+
+    /**
+     * @param mixed $campus
+     */
+    public function setCampus($campus): void
+    {
+        $this->campus = $campus;
     }
 
     public function getDateDebut(): ?\DateTimeInterface
