@@ -310,7 +310,7 @@ class SortiesController extends AbstractController
 
     public function detailsparticipants($id, EntityManagerInterface $em, Request $request)
 {
-    // récupérer la sortie à modifier
+    // récupérer lES PARTICIPANTS à modifier
     $participantRepo = $this->getDoctrine()->getRepository(Participants::class);
     $participant = $participantRepo->find($id);
 

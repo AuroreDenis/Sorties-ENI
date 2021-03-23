@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title%} {{ parent() }} | gérer les participants {%  endblock %}
+
+{% block main %}
+
+    <h1>Liste des participants inscrits:</h1>
+    <TABLE border="1">
+        <tr><th>N°</th>
+            <th>USERNAME</th>
+            <th>ROLES</th>
+            <th>NOM</th>
+            <th>PRENOM</th>
+            <th>TELEPHONE</th>
+            <th>MAIL</th>
+            <th>ACTIF=1</th>
+            <th>CAMPUS</th>
+            <th>action</th>
+
+        </tr>
+        {% for particip in participants %}
+            <tr>
+                {% if particip.username!='admin' %}
+                <td>{{ particip.id }}</td>
+                <td>{{ particip.username }}</td>
+                <td>{{ particip.roles |join(', ') }}</td>
+                <td>{{ particip.nom }}</td>
+                <td>{{ particip.prenom }}</td>
+                <td>{{ particip.telephone }}</td>
+                <td>{{ particip.mail }}</td>
+                <td>{{ particip.actif }}</td>
+                    <td>{{ particip.campus |join(',') }}</td>
+                <td><a href="{{ path('supprimer_utilisateur',{'id':particip.id}) }}">supprimer</a>
+                {% if particip.actif==1 %}<a href="{{ path('inactiver_utilisateur',{'id':particip.id}) }}">inactiver</a>{% endif %}
+                    {% if particip.actif==0 %}<a href="{{ path('activer_utilisateur',{'id':particip.id}) }}">activer</a>{% endif %}
+
+                </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </TABLE>
+{%  endblock %}
+
+    {% block header %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <h3>menu ADMIN</h3>
+
+            <li><a href="{{ path('sorties_list') }}">Accueil</a></li>
+            <li ><a href="{{ path('logout') }}">SE DECONNECTER</a></li>
+        {% endif %}
+
+    {% endblock %}
