@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/list.css") }}">
+{% endblock %}
 
 {% block title%} {{ parent() }} | Liste des sorties {%  endblock %}
 
@@ -231,3 +233,9 @@
 
 {%  endblock %}
 
+{% block footer %}
+
+    <div  id="main">
+        {{ parent() }}
+    </div>
+{% endblock %}
