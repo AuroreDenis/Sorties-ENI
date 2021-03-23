@@ -22,13 +22,17 @@
                 <div class="flash flash-{{ label }}">
                     {{ message }}
                 </div>
+
+
             {% endfor %}
         {% endfor %}
 
     {% endblock %}
 
     {% block main %}{% endblock %}
-    {% block footer %}{% endblock %}
+    {% block footer %}
+    <img src="../public/image/logo-eni.png">
+    {% endblock %}
 
     </body>
 </html>
