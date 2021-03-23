@@ -1,8 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}LOGIN{% endblock %}
+ {% block stylesheets %}
+     <link rel="stylesheet" href="{{ asset("css/login.css") }}">
+ {% endblock %}
 
 {% block main %}
+
     {# read and display all flash messages #}
     {% for label, messages in app.flashes %}
         {% for message in messages %}
@@ -24,6 +28,7 @@
     {% endif %}
 
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <div id="centrelogin">
     <label for="inputUsername">Username</label>
     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
     <label for="inputPassword">Password</label>
@@ -43,9 +48,17 @@
             </label>
         </div>
 
-
-    <button class="btn btn-lg btn-primary" type="submit">
+    <div class="centre">
+    <button class="btn-grad btn-grad1" type="submit">
         Sign in
     </button>
+    </div>
+    </div>
 </form>
+{% endblock %}
+{% block footer %}
+
+    <div  id="main">
+        {{ parent() }}
+    </div>
 {% endblock %}

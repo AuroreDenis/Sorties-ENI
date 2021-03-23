@@ -1,0 +1,112 @@
+body {
+    background-color: lightslategrey;
+    text-align: center;
+
+
+
+}
+.dialog-form .fld-field {
+    color: #000;
+    font-family: 'Open Sans Condensed',sans-serif;
+    width: 150px;
+    padding-left: 5px;
+
+}
+
+h2 {color:darkseagreen}
+footer {
+
+
+    background-color: tomato;
+
+
+}
+.btn-grad {background-image: linear-gradient(to right, #D31027 0%, #EA384D  51%, #D31027  100%)}
+.btn-grad1 {
+    margin: 10px;
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+}
+
+.btn-grad:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+.centre {
+
+    display: inline-block;
+    margin: 4px auto 0;
+}
+*{
+
+    margin:0;
+
+    padding:0;
+
+}
+
+
+
+body, html{height:60%;}
+
+body{
+
+    text-align:center;
+
+}
+
+
+
+#main{
+
+    max-width:1280px;
+
+    min-height:100%;
+
+    margin:0 auto;
+    justify-content: space-between;
+    position:relative;
+    align-items: flex-end;
+    display: flex;
+}
+
+
+
+footer{
+
+    background:#ccc;
+
+    position:absolute;
+
+    bottom:0;
+
+    width:100%;
+
+    padding-top:50px;
+
+    height:50px;
+
+}
+#logo {
+    width: 30px;
+    height: 30px;
+    background-color: red;
+
+}
+#centrelogin {
+    align-items: center;
+    margin-top: 10%;
+
+}
+
+
+

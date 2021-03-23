@@ -1,16 +1,25 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset("css/addsortie.css") }}">
+{% endblock %}
 
 {% block title%} {{ parent() }} | Créer une nouvelle sortie {%  endblock %}
 
 {% block main %}
-    <h2> Ajouter </h2>
-
+    <h2> Ajouter une sortie </h2>
+<div id="centrelogin">
     {{ form_start(SortiesType) }}
     {{ form_widget(SortiesType) }}
-
-    <button type = reset > Annuler </button>
-
+</div>
+    <div class="centre">
+    <button class="btn-grad btn-grad1"> Annuler </button>
+    </div>
+</div>
     {{ form_end(SortiesType) }}
-
 {%  endblock %}
+{% block footer %}
+    <div  id="main">
+        {{ parent() }}
+    </div>
+
+{% endblock %}

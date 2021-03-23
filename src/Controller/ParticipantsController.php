@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Controller;
-
-use App\Entity\Campus;
 use App\Entity\Etat;
+use App\Entity\Campus;
 use App\Entity\Participants;
 use App\Entity\Sortie;
 use App\Form\ParticipantsType;
@@ -32,20 +31,17 @@ class ParticipantsController extends AbstractController
         $etatsArchiveRepository = $this->getDoctrine()->getRepository(Etat::class);
         $etatArchive= $etatsArchiveRepository->findOneBy(['libelle' => 'Archivée']);
         foreach ($sorties as $valeur) {
-            if ($valeur->getDateDebut()<$firstDate){
+            if ($valeur->getDateDebut() < $firstDate) {
                 $sortieRepo2 = $this->getDoctrine()->getRepository(Sortie::class);
-                $id=$valeur->getId();
+                $id = $valeur->getId();
                 $sortie2 = $sortieRepo2->find($id);
                 $sortie2->setEtat($etatArchive);
                 $em->persist($sortie2);
                 $em->flush();
-
-
             }
-
         }
-        //********************************************************************************************
-        if ($this->getUser()) {
+            //********************************************************************************************
+                if ($this->getUser()) {
             $user=$this->getUser()->getActif();// si actif=0 deconnexion
             if (!$user) {
                 $this->addFlash('error', "Compte désactivé (veuillez contacter l'administrateur)");

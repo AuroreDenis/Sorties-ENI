@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}sortir-ENI{% endblock %}
+ {% block stylesheets %}
+     <link rel="stylesheet" href="{{ asset("css/monprofil.css") }}">
+ {% endblock %}
 
 {% block header %}
     {% if is_granted('ROLE_ADMIN') %}
@@ -15,13 +18,22 @@
 {% endblock %}
 
 {% block main %}
-
+ <div id="centrelogin">
     {{ form_start(registerForm) }}
     <p>n'oubliez pas aussi de choisir votre campus</p>{# {{ participant.campus| join(",") }} #}
 
     {{ form_widget(registerForm) }}
-    <button type="submit">Send!</button>
+    <div class="centre">
+    <button class="btn-grad btn-grad1" type="submit">Send!</button>
+    </div>
+ </div>
     {{ form_end(registerForm) }}
 
 {% endblock %}
 
+{% block footer %}
+
+    <div  id="main">
+        {{ parent() }}
+    </div>
+{% endblock %}
