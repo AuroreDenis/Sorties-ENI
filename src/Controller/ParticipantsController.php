@@ -22,14 +22,19 @@ class ParticipantsController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils, EntityManagerInterface $em): Response
     {
-        //***********traitement en archive***********************
+        //***********traitement en archive en cours et fermé***********************
         $firstDate=new \DateTime('now');
         $firstDate ->sub(new DateInterval('P31D')); //date du jour -1mois
+        $today = new \DateTime('now');
         //récupère toutes les sorties
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sorties = $sortieRepo->findAll();
-        $etatsArchiveRepository = $this->getDoctrine()->getRepository(Etat::class);
-        $etatArchive= $etatsArchiveRepository->findOneBy(['libelle' => 'Archivée']);
+        $etatsRepository = $this->getDoctrine()->getRepository(Etat::class);
+        $etatArchive= $etatsRepository->findOneBy(['libelle' => 'Archivée']);
+        $etatEnCours = $etatsRepository->findOneBy(['libelle' => 'En cours']);
+        $etatFerme = $etatsRepository->findOneBy(['libelle' => 'Fermé']);
+        $etatOuvert = $etatsRepository->findOneBy(['libelle' => 'Ouvert']);
+
         foreach ($sorties as $valeur) {
             if ($valeur->getDateDebut() < $firstDate) {
                 $sortieRepo2 = $this->getDoctrine()->getRepository(Sortie::class);
@@ -39,6 +44,31 @@ class ParticipantsController extends AbstractController
                 $em->persist($sortie2);
                 $em->flush();
             }
+            elseif ($valeur->getDateDebut()==$today){//sortie en cours
+                $sortieRepo2 = $this->getDoctrine()->getRepository(Sortie::class);
+                $id = $valeur->getId();
+                $sortie2 = $sortieRepo2->find($id);
+                $sortie2->setEtat($etatEnCours);
+                $em->persist($sortie2);
+                $em->flush();
+            }
+            elseif ($valeur->getDateDebut()>$today and $valeur->getDateCloture()<$today){
+                $sortieRepo2 = $this->getDoctrine()->getRepository(Sortie::class);
+                $id = $valeur->getId();
+                $sortie2 = $sortieRepo2->find($id);
+                $sortie2->setEtat($etatFerme);
+                $em->persist($sortie2);
+                $em->flush();
+            }
+            elseif ($valeur->getDateDebut()>$today and $valeur->getDateCloture()>$today){
+                $sortieRepo2 = $this->getDoctrine()->getRepository(Sortie::class);
+                $id = $valeur->getId();
+                $sortie2 = $sortieRepo2->find($id);
+                $sortie2->setEtat($etatOuvert);
+                $em->persist($sortie2);
+                $em->flush();
+            }
+
         }
             //********************************************************************************************
                 if ($this->getUser()) {

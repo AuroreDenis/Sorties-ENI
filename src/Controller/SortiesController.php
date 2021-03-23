@@ -44,6 +44,8 @@ class SortiesController extends AbstractController
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sorties = $sortieRepo->findAll();
 
+
+
         //récupère tous les campus
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
         $campus = $campusRepo->findAll();
