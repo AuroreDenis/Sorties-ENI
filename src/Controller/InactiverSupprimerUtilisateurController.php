@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Participants;
+use App\Entity\Sortie;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,9 +33,26 @@ class InactiverSupprimerUtilisateurController extends AbstractController
         // récupérer lE PARTICIPANTS à supprimer
         $participantRepo = $this->getDoctrine()->getRepository(Participants::class);
         $participant = $participantRepo->find($id);
+        // recuperer les sorties
+        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $sortieRepo->findAll();
+
+        foreach ($sortie as $sort){
+            $lorganisateur=$sort->getOrganisateur();
+            $idorganisateur=$lorganisateur->getId();
+            if ($idorganisateur==$id){
+
+                $em->remove($sort);
+                $em->flush();
+            }
+        }
         ////SUPPRIMER EN en bdd
+        //$participant = $participantRepo->find($id);
         $em->remove($participant);
         $em->flush();
+
+
+
         return $this->redirectToRoute('inactiver_supprimer_utilisateur', [
 
         ]);
