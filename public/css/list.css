@@ -126,7 +126,7 @@ nav a {
     display:inline-block;
     margin: 0 30px;
 }*/
-/* 2eme solution
+/* 2eme solution */
 nav {
     display: block;
     margin: auto;
@@ -156,7 +156,7 @@ nav ul li a {
     text-decoration:none;
     text-align:center;
     font-family:Arial;
-}*/
+}
 /* 3eme solution
 nav {
     vertical-align: auto;
