@@ -62,6 +62,7 @@ class SortiesController extends AbstractController
         $firstDate ->sub(new DateInterval('P31D'));
         $Today=new \DateTime('now');
         //******************************
+
         if ($filtreForm->isSubmitted() && $filtreForm->isValid()) { // si le formulaire est envoyé
 
 
@@ -80,14 +81,15 @@ class SortiesController extends AbstractController
 
             //filtre check box
             $inscrit = $filtre->getInscrit(); // booléen -> affiche les sorties qd on inscrit / pas inscrit
-            if ( empty($inscrit)) {
+            $organisatrice = $filtre->getOrga();//booléen -> afffiche les sorties dont on est l'orga
+            $end = $filtre->getClose(); // booléen -> affiche sorties fermées
+            $pasInscrit = $filtre->getPasInscrit(); //booléen -> vrai si on affiche les sorties où on est inscrit
+            if ( empty($inscrit) and empty($organisatrice) and empty($pasInscrit)) {
              $Ok = false;
             }
-            $organisatrice = $filtre->getOrga();
-            if ( empty($organisatrice)){
-                $Ok  = false;
-            }//booléen -> afffiche les sorties dont on est l'orga
-            $end = $filtre->getClose(); // booléen -> affiche sorties fermées
+            else{
+                $Ok = true;
+            }
 
 
             return $this->render('sortie/list.html.twig', [
@@ -101,7 +103,8 @@ class SortiesController extends AbstractController
                 "orga" => $organisatrice,
                 "end" => $end,
                 "search"=> $mot,
-                "Ok" => $Ok
+                "Ok" => $Ok,
+                "pasInscrit"=> $pasInscrit
             ]);
         }
         return $this->render('sortie/list.html.twig', [
@@ -115,7 +118,8 @@ class SortiesController extends AbstractController
             "orga" => true,
             "end" => false,
             "search" => '',
-            "Ok" => false
+            "Ok" => false,
+            "pasInscrit" => false
         ]);
     }
 

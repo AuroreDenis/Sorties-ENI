@@ -64,7 +64,7 @@
     {% if sortie.dateDebut<=lastDate and sortie.dateDebut>=firstDate %} {# filtre par date #}
         {% if search in sortie.nom %} {# le nom contient bien ce mot #}
 
-            {%  if not Ok %}
+            {%  if not Ok %}{# rien n'est coché #}
                     <TR>
                         <TD> {{ sortie.nom }} </TD>
                         <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
@@ -203,7 +203,6 @@
             {%  endif %}
         {%  endif %}
     {%  endif %}
-
     {% endfor %}
     {% endif %}
 </TABLE>
