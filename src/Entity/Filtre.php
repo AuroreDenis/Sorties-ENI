@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\FiltreRepository;
+use DateInterval;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

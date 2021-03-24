@@ -45,8 +45,16 @@ class SortiesController extends AbstractController
 
         /****************************** récupère les sorties à afficher d'après le filtre **********/
 
+
+        $today = new \DateTime('now');
+        $lastDate = new \DateTime('now');
+        $lastDate->add(new DateInterval('P30D'));
+
+
         // formulaire - filtres
         $filtre = new Filtre();
+      $filtre->setDateDebut($today);
+      $filtre->setDateFin($lastDate);
         $filtreForm = $this->createForm(FiltreType::class, $filtre);
 
         //hydrate le formulaire
