@@ -103,7 +103,7 @@ class ParticipantsController extends AbstractController
      */
 
     public function add(EntityManagerInterface $em, Request $request, UserPasswordEncoderInterface $encoder)
-    {
+    {   $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $participant = new Participants();
         $registerForm = $this->createForm(ParticipantsType::class, $participant);
         $registerForm->handleRequest($request);

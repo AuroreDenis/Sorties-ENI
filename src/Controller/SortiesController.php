@@ -32,7 +32,7 @@ class SortiesController extends AbstractController
      */
     public function list(Request $request, EntityManagerInterface $em)
     {
-
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user=$this->getUser()->getActif();// si actif=0 deconnexion
         if (!$user) {
             $this->addFlash('error', "Compte désactivé (veuillez contacter l'administrateur)");
@@ -134,7 +134,7 @@ class SortiesController extends AbstractController
     public function add(EntityManagerInterface $em, EtatsRepository $etatsRepository,  UserInterface $user, Request $request, ParticipantsRepository $participantsRepository)
     {
         $sortie = new Sortie();
-
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         /**************************** Récupération de la ville *************************************/
 
         $villeRepo = $this->getDoctrine()->getRepository(Ville::class);
@@ -198,7 +198,7 @@ class SortiesController extends AbstractController
      * @Route("/sorties/{id}", name="sortie_detail", requirements={"id": "\d+"})
      */
     public function detail($id): Response
-    {
+    {   $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $sortiesRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortiesRepo->find($id);
 
@@ -214,7 +214,7 @@ class SortiesController extends AbstractController
      * @Route("/sorties/modif/{id}", name="sortie_modif", requirements={"id": "\d+"} )
      */
     public function modif($id, EntityManagerInterface $em, Request $request)
-    {
+    {   $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         // récupérer la sortie à modifier
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortieRepo->find($id);
@@ -247,7 +247,7 @@ class SortiesController extends AbstractController
      * @Route("/sorties/s'inscrire/{id}", name="sinscrire_sortie", requirements={"id": "\d+"} )
      */
     public function sinscrire($id, EntityManagerInterface $em, Request $request)
-    {
+    {   $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         // on récupère l'user
         $user=$this->getUser();
         // récupérer la sortie à modifier
@@ -278,7 +278,7 @@ class SortiesController extends AbstractController
      *
      */
     public function seDesister($id, EntityManagerInterface $em, Request $request)
-    {
+    {   $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         // on récupère l'user
         $user=$this->getUser();
         // récupérer la sortie à modifier
@@ -312,7 +312,7 @@ class SortiesController extends AbstractController
      */
 
     public function detailsparticipants($id, EntityManagerInterface $em, Request $request)
-{
+{   $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
     // récupérer lES PARTICIPANTS à modifier
     $participantRepo = $this->getDoctrine()->getRepository(Participants::class);
     $participant = $participantRepo->find($id);
@@ -329,7 +329,7 @@ class SortiesController extends AbstractController
      *
      */
     public function annulerSortie($id, EntityManagerInterface $em, Request $request): Response
-    {
+    {   $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         // récupérer la sortie à modifier
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortieRepo->find($id);

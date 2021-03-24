@@ -20,9 +20,9 @@ class GererMonProfilUtilisateurController extends AbstractController
      * @Route("/gerer/mon/profil/utilisateur", name="gerer_mon_profil_utilisateur")
      */
     public function index(EntityManagerInterface $em, Request $request, UserPasswordEncoderInterface $encoder): Response
-    {    $participant=$this->getUser();
-
-
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $participant=$this->getUser();
         $participant->setCampus('');
         $registerForm = $this->createForm(ParticipantsType::class, $participant);
         $registerForm->handleRequest($request);
