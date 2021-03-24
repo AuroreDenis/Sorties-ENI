@@ -1,17 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}GESTION DES CAMPUS{% endblock %}
-
+ {% block stylesheets %}
+     <link rel="stylesheet" href="{{ asset("css/campus.css") }}">
+ {% endblock %}
 {% block header %}
 
 {% endblock %}
 
 {% block nav %}
     {% if is_granted ('IS_AUTHENTICATED_REMEMBERED') %}
-
+<div id="haut"
+>
     <li><a href="{{ path('sorties_list') }}">ACCUEIL</a></li>
     <li><a href="#">MON PROFIL</a></li>
     <li ><a href="{{ path('logout') }}">SE DECONNECTER</a></li>
+</div>
     {% endif %}
 {% endblock %}
 
@@ -33,8 +37,15 @@
     </table>
     {{ form_start(CampusForm) }}
     {{ form_widget(CampusForm) }}
-    <button type="submit">Valider</button>
+    <div class="centre">
+    <button class="btn-grad btn-grad1" type="submit">Valider</button>
     {{ form_end(CampusForm) }}
+    </div>
 
+{% endblock %}
+{% block footer %}
 
+    <div  id="main">
+        {{ parent() }}
+    </div>
 {% endblock %}
