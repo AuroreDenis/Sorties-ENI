@@ -23,6 +23,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+* @Route ("/profile")
+*/
 class SortiesController extends AbstractController
 {
 
@@ -330,6 +333,8 @@ class SortiesController extends AbstractController
      */
     public function annulerSortie($id, EntityManagerInterface $em, Request $request): Response
     {   $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        //verifier si organisateur!! verifier si $id existe!!! verifier etat sortie!!!
+
         // récupérer la sortie à modifier
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sortie = $sortieRepo->find($id);
