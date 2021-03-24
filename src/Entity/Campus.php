@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\CampusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * @UniqueEntity(fields={"nom_campus"})
  * @ORM\Entity(repositoryClass=CampusRepository::class)
  */
 class Campus
