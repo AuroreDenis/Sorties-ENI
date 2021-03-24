@@ -19,6 +19,12 @@ class SortiesType extends AbstractType
 
         $builder
             ->add('nom')
+    ->add('campus', EntityType::class, [
+                'mapped' => false,
+                'class'=>Campus::class,
+                'choice_label' => 'nom_campus',
+                'multiple'=> false, 'expanded'=> false,
+            ])
             ->add('date_debut')
             ->add('duree')
             ->add('date_cloture')

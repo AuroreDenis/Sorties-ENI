@@ -64,6 +64,10 @@ class Sortie
      */
     private $organisateur;
 
+    /**
+     * @ORM\ManyToOne (targetEntity="App\Entity\Campus")
+     */
+    private $campus;
 
 
     /**

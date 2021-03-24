@@ -41,15 +41,15 @@
         <p>Compte désactivé (veuillez contacter l'administrateur)</p>
     {% endif %}
     {% if user.actif==1 %}
-    <h2> Filtrer les sorties </h2>
+        <h2> Filtrer les sorties </h2>
 
-    {{ form_start(filtreForm) }}
-    {{ form_widget(filtreForm)}}
-    <div class="centre">
-<input class="btn-grad btn-grad1" type="submit" value="Rechercher">
-    </div>
-    {{ form_end(filtreForm) }}
-
+        {{ form_start(filtreForm) }}
+        {{ form_widget(filtreForm)}}
+        <div class="centre">
+            <input class="btn-grad btn-grad1" type="submit" value="Rechercher">
+        </div>
+        {{ form_end(filtreForm) }}
+    {% endif %}
     <h2> Les sorties </h2>
     <table border="1">
         <TR>
@@ -66,13 +66,37 @@
 
         {# On ajoute les filtres ! #}
         {%  for sortie in sorties %}
-            {% if sortie.organisateur.campus.nomCampus == campus %}
-                {% if sortie.dateDebut<=lastDate and sortie.dateDebut>=firstDate %} {# filtre par date #}
-                    {% if search in sortie.nom %} {# le nom contient bien ce mot #}
+            <TR>
+            <TD> {{ sortie.nom }} </TD>
+            <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
+            <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
+            <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
+            <td> {{ sortie.etat.libelle }}</td>
+            <td> {% if user in sortie.participants %} X {%  endif %}</td>
+            <td> {{ sortie.organisateur.username }}</td>
+            <td> {{ sortie.campus.nomCampus }}</td>
+            {%  if sortie.etat.libelle=="En création" and  sortie.organisateur.username==user.username  %}
+                <td> <a href=" {{ path('sortie_add')}}"> Modifier </a>
+            {% elseif  sortie.etat.libelle=="Fermé"%}
+                <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
+                {% if sortie.dateCloture>today and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
+                {% if sortie.organisateur.username==user.username and sortie.dateDebut>today %}<a href=" {{ path('annuler-sortie',{'id':sortie.id}) }}">Annuler la sortie</a>{% endif %}
 
-                        {%  if not Ok %}{# rien n'est coché #}
+            {%  elseif sortie.etat.libelle!="Annulée" %}
+                <td> <a href=" {{ path('sortie_detail',{'id':sortie.id}) }}"> Afficher </a>
+                    {% if sortie.dateCloture>today and user not in sortie.participants and sortie.participants|length<sortie.nbInscriptionsMax %}<a href=" {{ path('sinscrire_sortie',{'id':sortie.id}) }}"> S'inscrire </a>{% endif %}
+                    {% if sortie.dateCloture>today and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
+                    {% if sortie.organisateur.username==user.username and sortie.dateDebut>today %}<a href=" {{ path('annuler-sortie',{'id':sortie.id}) }}">Annuler la sortie</a>{% endif %}
+                </td>
+            {%  endif %}</TR>
+        {%  endfor %}
+        <!-- {#       {% if sortie.organisateur.campus.nomCampus == campus %}
+                {% if sortie.dateDebut<=lastDate and sortie.dateDebut>=firstDate %} {# filtre par date #}
+              {#       {% if search in sortie.nom %} {# le nom contient bien ce mot #}
+
+               {#           {%  if not Ok %}{# rien n'est coché #}
                             <TR>
-                                <TD> {{ sortie.nom }} </TD>
+                  {#                <TD> {{ sortie.nom }} </TD>
                                 <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
                                 <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
                                 <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
@@ -100,10 +124,10 @@
                                 {% endif %}
                             </TR>
                             {# si inscrit #}
-                        {% elseif inscrit and user in sortie.participants %}
+                  {#        {% elseif inscrit and user in sortie.participants %}
                             {% if (orga and (user.username == sortie.organisateur.username)) %} {#  et orga #}
                                 <TR>
-                                    <TD> {{ sortie.nom }} </TD>
+                   {#                   <TD> {{ sortie.nom }} </TD>
                                     <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
                                     <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
                                     <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
@@ -133,7 +157,7 @@
                                 </TR>
                             {% else %}{#  et pas orga #}
                                 <TR>
-                                    <TD> {{ sortie.nom }} </TD>
+                   {#                   <TD> {{ sortie.nom }} </TD>
                                     <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
                                     <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
                                     <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
@@ -163,8 +187,8 @@
 
                             {% endif %}
                         {%  elseif pasInscrit and user not in sortie.participants %} {# on affiche si pas inscrit #}
-                            {% if (orga and (user.username == sortie.organisateur.username)) %}{#  et orga #}
-                                <TR>
+                      {#        {% if (orga and (user.username == sortie.organisateur.username)) %}{#  et orga #}
+                       {#           <TR>
                                     <TD> {{ sortie.nom }} </TD>
                                     <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
                                     <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
@@ -194,7 +218,7 @@
                                     {% endif %}
                                 </TR>
                             {% else %}{#  et pas orga #}
-                                <TR>
+                     {#             <TR>
                                     <TD> {{ sortie.nom }} </TD>
                                     <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
                                     <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
@@ -225,7 +249,7 @@
                             {% endif %}
                         {% elseif (orga and (user.username == sortie.organisateur.username)) %}{#  orga #}
                             <TR>
-                                <TD> {{ sortie.nom }} </TD>
+                        {#          <TD> {{ sortie.nom }} </TD>
                                 <TD> {{ sortie.dateDebut |date('d/m/Y') }} </TD>
                                 <TD> {{ sortie.dateCloture |date('d/m/Y')}} </TD>
                                 <td> {{ sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</td>
@@ -257,7 +281,7 @@
                 {%  endif %}
             {% endif %}
         {% endfor %}
-        {% endif %}
+        {% endif %}#} -->
     </TABLE>
     <div id="largeur"></div>
     <div class="centre">

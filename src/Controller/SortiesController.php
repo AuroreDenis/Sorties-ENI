@@ -43,7 +43,23 @@ class SortiesController extends AbstractController
         }
         $user=$this->getUser();// si actif=0 deconnexion
 
-        //récupère toutes les sorties
+        /****************************** récupère les sorties à afficher d'après le filtre **********/
+
+        // formulaire - filtres
+        $filtre = new Filtre();
+        $filtreForm = $this->createForm(FiltreType::class, $filtre);
+
+        //hydrate le formulaire
+        $filtreForm->handleRequest($request);
+
+        // récupère repository
+        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sorties = $sortieRepo->filtrer($user, $filtre);
+
+        // date du jour
+        $today=new \DateTime('now');
+
+        /*  //récupère toutes les sorties
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
         $sorties = $sortieRepo->findAll();
 
@@ -128,6 +144,17 @@ class SortiesController extends AbstractController
             "pasInscrit" => false,
             "campus"=> 'Rennes'
         ]);
+    */
+
+
+
+        return $this->render('sortie/list.html.twig', [
+            "sorties" => $sorties,
+            "filtreForm" => $filtreForm->createView(),
+            "user" => $user,
+            "today" => $today
+            ]);
+
     }
 
 /********************************************** Création d'une sortie *****************************************/
