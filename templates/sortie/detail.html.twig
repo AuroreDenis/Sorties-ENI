@@ -12,24 +12,24 @@
 </div>
     <div>
         <h4>Date et heure de la sortie: {{ sortie.dateDebut|date('d-m-Y H:i:s') }}</h4>
-        <h4>Lieu:</h4>
+        <h4>Lieu: {{ sortie.lieu.nomLieu }}</h4>
 
     </div>
     <div>
         <h4>Date limite d'inscription: {{ sortie.dateCloture|date('d-m-Y H:i:s') }}</h4>
-        <h4>rue: </h4>
+        <h4>rue: {{ sortie.lieu.rue }}</h4>
     </div>
     <div>
         <h4>Nombre de places: {{ sortie.nbInscriptionsMax - sortie.participants|length}} / {{ sortie.nbInscriptionsMax }}</h4>
-        <h4>Code postal:  </h4>
+        <h4>Code postal: {{ sortie.lieu.ville.codePostal}}  </h4>
     </div>
     <div>
         <h4>Durée: {{ sortie.duree }}/minutes</h4>
-        <h4>Lattitude :  -----</h4>
+        <h4>Lattitude :  {{ sortie.lieu.latitude }}</h4>
     </div>
     <div>
         <h4>Description infos: {{ sortie.descriptionInfos }}</h4>
-        <h4>Longitude:  -----</h4>
+        <h4>Longitude:  {{ sortie.lieu.longitude }}</h4>
     </div>
 
     <h1>Liste des participants inscrits:</h1>

@@ -6,6 +6,7 @@ use App\Entity\Campus;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -22,10 +23,8 @@ class SortiesType extends AbstractType
         $builder
             ->add('nom')
     ->add('campus', EntityType::class, [
-                'mapped' => false,
                 'class'=>Campus::class,
                 'choice_label' => 'nom_campus',
-                'multiple'=> false, 'expanded'=> false,
             ])
             ->add('date_debut', DateType::class, [
                 'label' => 'Date de la sortie',
@@ -38,19 +37,7 @@ class SortiesType extends AbstractType
             ->add('nb_inscriptions_max')
             ->add('description_infos')
             ->add('url_photo')
-            ->add('ville', EntityType::class, [
-                'mapped' => false,
-                'class'=>Ville::class,
-                'choice_label' => 'nom_ville',
-                'multiple'=> false, 'expanded'=> false,
-            ])
-            ->add('lieu', EntityType::class, [
-                'mapped' => false,
-                'class'=>Lieu::class,
-                'choice_label' => 'nom_lieu',
-                'multiple'=> false,
-                'expanded'=> false,
-            ])
+            ->add('lieu')
 
         ->add('creer', SubmitType::class, [
             'label' => 'Création'
