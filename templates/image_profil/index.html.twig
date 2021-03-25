@@ -3,7 +3,19 @@
 {% block title %}photo de profil{% endblock %}
 
 {% block main %}
-
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('.preview')
+                        .attr('src', e.target.result)
+                        .height(100)
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 
     <fieldset style="width: 110px;">
     <img src="{{ asset('uploads/brochures/' ~ nom ) }}" style="width: 60px; height: 90px;">
@@ -12,7 +24,11 @@
     <h1>Ajouter votre photo de profil</h1>
 
     {{ form_start(form) }}
-
+    {{ form_row(form.photoFilename, {
+        attr: {
+            'placeholder': 'Select an article image'
+        }
+    }) }}
 
     {{ form_row(form.photoFilename) }}
     <button type="submit">Valider la photo</button>

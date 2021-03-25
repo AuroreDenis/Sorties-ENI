@@ -82,7 +82,7 @@ class Participants implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @Assert\NotBlank(message="Please, upload the product brochure as a PNG file.")
-     * @Assert\File(mimeTypes={ "image/png", "image/jpeg", "image/jpg"})
+     * @Assert\File(mimeTypes={ "image/png", "image/jpeg", "image/jpg", "image/gif"admin peut })
      */
     private $photoFilename;
 

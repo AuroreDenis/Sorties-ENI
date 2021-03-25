@@ -100,7 +100,12 @@
                     {% if sortie.dateCloture>today and user in sortie.participants %}<a href=" {{ path('seDesister_sortie',{'id':sortie.id}) }}">Se Désister</a>{% endif %}
                     {% if sortie.organisateur.username==user.username and sortie.dateDebut>today %}<a href=" {{ path('annuler-sortie',{'id':sortie.id}) }}">Annuler la sortie</a>{% endif %}
                 </td>
-            {%  endif %}</TR>
+            {%  elseif sortie.etat.libelle=="Annulée"%}
+                <td>
+                    {{ sortie.descriptionInfos }}
+                </td>
+
+                {% endif %}</TR>
         {%  endfor %}
     </TABLE>
     <div id="largeur"></div>
