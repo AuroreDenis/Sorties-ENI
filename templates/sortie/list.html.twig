@@ -22,6 +22,7 @@
             {% if is_granted('ROLE_USER') and user.actif==1 %}
                 <h3>menu user</h3>
                 <li><a href="{{ path('gerer_mon_profil_utilisateur') }}">mon profil utilisateur</a></li>
+                <li><a href="{{ path('image_profil') }}">ma photo de profil</a></li>
                 <li>ville</li>
                 <li>campus</li>
                 <li><a href="{{ path('sorties_list') }}">accueil</a></li>
