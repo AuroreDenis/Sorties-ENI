@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}photo de profil{% endblock %}
+
+{% block main %}
+
+    <h1>Adding a new product</h1>
+
+    {{ form_start(form) }}
+    {# ... #}
+
+    {{ form_row(form.photoFilename) }}
+    {{ form_end(form) }}
+
+{% endblock %}

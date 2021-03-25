@@ -78,6 +78,14 @@ class Participants implements UserInterface
      */
     private $sorties;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @Assert\NotBlank(message="Please, upload the product brochure as a PNG file.")
+     * @Assert\File(mimeTypes={ "application/png" })
+     */
+    private $photoFilename;
+
     public function __construct()
     {
         $this->sortie = new ArrayCollection();
@@ -263,6 +271,18 @@ class Participants implements UserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+        return $this;
+    }
+
+    public function getPhotoFilename(): ?string
+    {
+        return $this->photoFilename;
+    }
+
+    public function setPhotoFilename(?string $photoFilename): self
+    {
+        $this->photoFilename = $photoFilename;
+
         return $this;
     }
 
