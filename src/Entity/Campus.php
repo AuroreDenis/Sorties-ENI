@@ -21,7 +21,7 @@ class Campus
     private $id;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="string")
      */
     private $nom_campus;
 
@@ -40,5 +40,9 @@ class Campus
         $this->nom_campus = $nom_campus;
 
         return $this;
+    }
+
+    public function __toString(){
+        return $this->id.' - '.$this->nom_campus;
     }
 }

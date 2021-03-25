@@ -69,7 +69,7 @@ class Participants implements UserInterface
     private $actif=1;
 
     /**
-     * @ORM\Column (type="object")
+     * @ORM\ManyToOne (targetEntity="App\Entity\Campus")
      */
     private $campus;
 

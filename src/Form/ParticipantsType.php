@@ -27,9 +27,7 @@ class ParticipantsType extends AbstractType
 
             ->add('telephone')
             ->add('mail')
-            ->add('campus', EntityType::class, ['class'=>Campus::class, 'choice_label' => 'nom_campus',
-                'multiple'=> false, 'expanded'=> false,
-                ])
+            ->add('campus')
             ->add('password', RepeatedType::class,[
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',

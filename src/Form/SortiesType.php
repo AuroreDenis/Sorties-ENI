@@ -22,10 +22,7 @@ class SortiesType extends AbstractType
 
         $builder
             ->add('nom')
-    ->add('campus', EntityType::class, [
-                'class'=>Campus::class,
-                'choice_label' => 'nom_campus',
-            ])
+            ->add('campus')
             ->add('date_debut', DateType::class, [
                 'label' => 'Date de la sortie',
                 'format' => 'dd-MMMM-yyyy'
