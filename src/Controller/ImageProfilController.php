@@ -19,21 +19,26 @@ class ImageProfilController extends AbstractController
      * @Route("/image/profil", name="image_profil")
      */
     public function new(Request $request, EntityManagerInterface $em)
-    {
+    {   $nomfile="";
         $participant=$this->getUser();
-        $participant->setPhotoFilename(
-            new File($this->getParameter('brochures_directory').'/'.$participant->getPhotoFilename())
-        );
+        if ($participant->getPhotoFilename()!=null) {
+            $nomfile=$participant->getPhotoFilename();
+            $participant->setPhotoFilename("");
+        }
+
+       //$participant->setPhotoFilename(new File($this->getParameter('brochures_directory').'/'.$participant->getPhotoFilename()));
+
         $form = $this->createForm(ImageType::class, $participant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // $file stores the uploaded PNG file
-            ///** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-            $file = $participant->getPhotoFilename();
+            ///** @var Symfony\Component\HttpFoundation\File\UploadedFile $file*/
+            //$file = $participant->getPhotoFilename();
+            $file = $form->get('photoFilename')->getData();
 
-            $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
-
+            $fileName = $this->generateUniqueFileName();//.'.'.$file->guessExtension();
+            if ($nomfile!=""){$fileName=$nomfile;}
             // moves the file to the directory where brochures are stored
             $file->move(
                 $this->getParameter('brochures_directory'),
@@ -42,7 +47,7 @@ class ImageProfilController extends AbstractController
 
             // updates the 'brochure' property to store the PDF file name
             // instead of its contents
-            $participant->setBrochure($fileName);
+            $participant->setPhotoFilename($fileName);
 
             // ... persist the $product variable or any other work
             $em->persist($participant);

@@ -36,6 +36,12 @@
 {% block main %}
     <h3>Date du jour: {{ today|date("d/m/Y") }}</h3>
     <h3>Participant: {{ user.prenom }}  {{ user.nom }}</h3>
+    {% if user.photofilename!=null %}
+    <img src="{{ asset('uploads/brochures/' ~ user.photofilename) }}" style="width: 60px; height: 90px;" alt="photo profil">
+    {% else %}
+    <p style="background-color: #AA3333; width: 60px; height: 90px;">ajouter votre photo</p>
+    {% endif %}
+
     {% if user.actif==1 %}
         <p>ACTIF</p>
     {% else %}

@@ -4,12 +4,13 @@
 
 {% block main %}
 
-    <h1>Adding a new product</h1>
+    <h1>Ajouter votre photo de profil</h1>
 
     {{ form_start(form) }}
     {# ... #}
 
     {{ form_row(form.photoFilename) }}
+    <button type="submit">Valider la photo</button>
     {{ form_end(form) }}
 
 {% endblock %}
