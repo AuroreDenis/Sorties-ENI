@@ -21,6 +21,8 @@ class ImageProfilController extends AbstractController
     public function new(Request $request, EntityManagerInterface $em)
     {   $nomfile="";
         $participant=$this->getUser();
+        $participant2=$this->getUser();
+
         if ($participant->getPhotoFilename()!=null) {
             $nomfile=$participant->getPhotoFilename();
             $participant->setPhotoFilename("");
@@ -56,7 +58,7 @@ class ImageProfilController extends AbstractController
         }
 
         return $this->render('image_profil/index.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form->createView(),'user'=>$participant2, "nom"=>$nomfile,
         ]);
 
     }

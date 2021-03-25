@@ -4,10 +4,15 @@
 
 {% block main %}
 
+
+    <fieldset style="width: 110px;">
+    <img src="{{ asset('uploads/brochures/' ~ nom ) }}" style="width: 60px; height: 90px;">
+    <p>photo actuelle</p>
+    </fieldset>
     <h1>Ajouter votre photo de profil</h1>
 
     {{ form_start(form) }}
-    {# ... #}
+
 
     {{ form_row(form.photoFilename) }}
     <button type="submit">Valider la photo</button>
