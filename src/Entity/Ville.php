@@ -83,4 +83,8 @@ class Ville
 
         return $this;
     }
+
+    public function __toString(){
+        return $this->id.' - '.$this->nom_ville;
+    }
 }
