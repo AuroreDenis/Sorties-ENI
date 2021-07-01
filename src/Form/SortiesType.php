@@ -26,19 +26,18 @@ class SortiesType extends AbstractType
             ->add('date_debut', DateType::class, [
                 'label' => 'Date de la sortie',
                 'format' => 'dd-MMMM-yyyy'
-            ])
+                 ])
             ->add('duree')
             ->add('date_cloture',DateType::class, [
-        'format' => 'dd-MMMM-yyyy'
-    ])
+                 'format' => 'dd-MMMM-yyyy'
+                 ])
             ->add('nb_inscriptions_max')
             ->add('description_infos')
             ->add('url_photo')
             ->add('lieu')
-
-        ->add('creer', SubmitType::class, [
-            'label' => 'Création'
-        ])
+            ->add('creer', SubmitType::class, [
+                 'label' => 'Création'
+                  ])
             ->add('publier', SubmitType::class, [
                 'label' => 'Publication'
             ]);
